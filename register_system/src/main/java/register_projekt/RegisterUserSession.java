@@ -7,6 +7,7 @@ import java.security.NoSuchAlgorithmException;
 import java.security.SecureRandom;
 import java.security.spec.InvalidKeySpecException;
 import java.security.spec.KeySpec;
+import java.util.Locale;
 import java.util.Scanner;
 import java.util.regex.Pattern;
 
@@ -31,7 +32,7 @@ public class RegisterUserSession {
         registerUserInFile();
     }
 
-    private void userName() throws IOException {
+    private void userName() throws NoSuchAlgorithmException {
         System.out.print("Name: ");
         String input = scanner.nextLine();
         matcher = userPattern.matcher(input);
@@ -39,12 +40,12 @@ public class RegisterUserSession {
             user = input;
         }
         else {
-            throw new IOException("Invalid input");
+            throw new NoSuchAlgorithmException("Invalid input");
         }
     }
 
     private void password() throws IOException, InvalidKeySpecException, NoSuchAlgorithmException {
-        System.out.print("Password (Min 8 chars, max 20, one digit, one uppercase char, one lower case char, one special char (!@#$%&*()-+=^)): ");
+        System.out.print("Password (Min 8 chars, max 20, min one digit, min one uppercase char, min one lower case char, min one special char (!@#$%&*()-+=^)): ");
         String pw = scanner.nextLine();
         matcher = pwPattern.matcher(pw);
         if (matcher.find()) {
@@ -86,6 +87,4 @@ public class RegisterUserSession {
         writer.write(sb.toString());
         writer.close();
     }    
-
-    
 }
