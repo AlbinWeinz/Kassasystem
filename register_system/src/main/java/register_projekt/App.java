@@ -1,8 +1,9 @@
 package register_projekt;
 
-import java.io.IOException;
-import java.security.NoSuchAlgorithmException;
-import java.security.spec.InvalidKeySpecException;
+import java.nio.charset.Charset;
+import java.nio.charset.StandardCharsets;
+import java.security.SecureRandom;
+import java.util.Base64;
 
 /**
  * Hello world!
@@ -10,8 +11,10 @@ import java.security.spec.InvalidKeySpecException;
  */
 public class App 
 {
-    public static void main( String[] args ) throws InvalidKeySpecException, NoSuchAlgorithmException, IOException 
-    {
-        RegisterUserSession r = new RegisterUserSession();
+    public static void main( String[] args ) throws Exception {
+
+        UserRegistration userRegistration = new UserRegistration();
+        // Login login = new Login();
+
     }
 }
