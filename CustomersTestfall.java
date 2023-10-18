@@ -10,7 +10,8 @@ public class CustomersTestfall {
         double pointsTest=customers.calculatePoints(1000, 10,2);
         assertEquals((20.0),pointsTest); //Testing positiv value
     }
-    //test negativ value and error message
+   
+    // add test negative value and error message
 
     @Test
     void membershipStatusTest1(){
@@ -82,7 +83,7 @@ public class CustomersTestfall {
         assertEquals("0% rabatt", customers.calculateDiscount("Not a member"));
     }
 
-    @Test ///får jobba vidare på denna eller kasse inte behöver denna
+    @Test ///får jobba vidare på denna eller kanske inte behöver denna
     void addCustomerTest(){
         Customers customers=new Customers();
         customers.addCustomer("Anna Carlsson", "199308143528", 30, 25.0, "Silver","anna@exempel.com");
