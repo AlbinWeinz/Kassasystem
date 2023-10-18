@@ -68,7 +68,9 @@ public class UserRegistration {
         String input = readStringInput();
         if (checkStringAgainstMatcher(input, pwPattern)) {
             HashPW hPW = new HashPW();
-            hashedPw = hPW.hashPW(input, createSalt());
+            byte[] salt = hPW.createSalt();
+            userSalt = Base64.getEncoder().encodeToString(salt);
+            hashedPw = hPW.hashPW(input, salt);
             InsertUserInDB insertUserInDB = new InsertUserInDB();
             insertUserInDB.insertUserINDB(userName, hashedPw, userSalt);
             registrationConfirmation();
@@ -81,14 +83,6 @@ public class UserRegistration {
 
     private void pwPrompt() {
         System.out.print("Password (Min 8 chars, max 20, min one digit, min one uppercase char, min one lower case char, min one special char (!@#$%&*()-+=^)): ");
-    }
-
-    private byte[] createSalt() throws NoSuchAlgorithmException {
-        SecureRandom sr = SecureRandom.getInstance("SHA1PRNG");
-        byte[] salt = new byte[16];
-        sr.nextBytes(salt);
-        userSalt = Base64.getEncoder().encodeToString(salt);
-        return salt;
     }
 
 }
