@@ -1,8 +1,7 @@
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
-///Det är bara hur långt jag har kommit, kommer lägga till mer tills på torsdag
-// (kanske scanner) och försöka komma en bit på junitfall :)
+///Det är bara hur långt jag har kommit, kommer lägga till mer på torsdag
 public class Customers {
     private String personalNumber;
     private String name;
