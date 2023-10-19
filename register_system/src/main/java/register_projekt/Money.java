@@ -44,7 +44,7 @@ public class Money {
         return amount.doubleValue();
     }
 
-    public Money sum(Money other) {
+    public Money add(Money other) {
         return new Money(amount.add(other.amount).doubleValue());
     }
 
@@ -53,7 +53,7 @@ public class Money {
     }
 
     public Money multiply(double n) {
-        return new Money(amount.multiply(BigDecimal.valueOf(n)).doubleValue());
+        return new Money(amount.multiply(BigDecimal.valueOf(n)).setScale(2, RoundingMode.HALF_UP).doubleValue());
     }
 
     public Money round() {
@@ -64,5 +64,4 @@ public class Money {
     public String toString() {
         return String.format("%d.%02d kr", getKronor(), getOren());
     }
-
 }
