@@ -1,24 +1,22 @@
 package register_projekt;
 
+import java.io.IOException;
+import java.security.NoSuchAlgorithmException;
+import java.security.spec.InvalidKeySpecException;
+import java.sql.SQLException;
 import java.util.Base64;
 import java.util.Scanner;
+
 
 public class Login {
 
     private Scanner scanner = new Scanner(System.in);
     private User storedUser;
 
-    public Login() throws Exception {
-        userName();
-    }
-    
-    private void userName() throws Exception {
+    public void userNameField() throws ClassNotFoundException, SQLException {
         userNamePrompt();
-        FetchMatchingUser fetchMatchingUser = new FetchMatchingUser();
-        storedUser = fetchMatchingUser.fetchMatchingUser(readStringInput());
-        if (storedUser != null) {
-            password();
-        }
+        DatabaseQuerys databaseQuerys = new DatabaseQuerys();
+        storedUser = databaseQuerys.createAMatchingUser(readStringInput());
     }
 
     private String readStringInput() {
@@ -29,14 +27,14 @@ public class Login {
         System.out.print("Enter Name: ");
     }
 
-    private void password() throws Exception {
+    public void passwordField() throws IOException, InvalidKeySpecException, NoSuchAlgorithmException {
         pwPrompt();
         String inputPW = readStringInput();
         byte[] salt = Base64.getDecoder().decode(storedUser.getSalt());
         HashPW hPW = new HashPW();
         String hashedInputPW = hPW.hashPW(inputPW, salt);
-        if (!comparePWS(hashedInputPW, storedUser.getHashedPw())) {
-            throw new Exception("Wrong password for user " + storedUser.getUser());
+        if (!hashedInputPW.equals(storedUser.getHashedPw())) {
+            throw new IOException("Wrong password for user " + storedUser.getUser());
         }
         else {
             System.out.println("Login successful!");
@@ -45,13 +43,6 @@ public class Login {
 
     private void pwPrompt() {
         System.out.print("Enter password: ");
-    }
-
-    private boolean comparePWS(String enteredPW, String storedPW) {
-        if (storedPW.equals(enteredPW)) {
-            return true;
-        }
-        return false;
     }
     
 }

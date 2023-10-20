@@ -17,7 +17,6 @@ public class HashPW {
         SecretKeyFactory factory = SecretKeyFactory.getInstance("PBKDF2WithHmacSHA512");
         byte[] bytes = factory.generateSecret(keySpec).getEncoded();
         String hashedPw = Base64.getEncoder().encodeToString(bytes);
-        
         return hashedPw;
     }
 

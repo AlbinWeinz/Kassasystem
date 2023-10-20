@@ -1,10 +1,5 @@
 package register_projekt;
 
-import java.nio.charset.Charset;
-import java.nio.charset.StandardCharsets;
-import java.security.SecureRandom;
-import java.util.Base64;
-
 /**
  * Hello world!
  *
@@ -12,9 +7,11 @@ import java.util.Base64;
 public class App 
 {
     public static void main( String[] args ) throws Exception {
-
         UserRegistration userRegistration = new UserRegistration();
+        // userRegistration.userNameField();
+        userRegistration.userNameField();
         // Login login = new Login();
-
+        // // login.userNameField();
+        // login.passwordField();
     }
 }
