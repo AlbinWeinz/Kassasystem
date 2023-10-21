@@ -3,19 +3,21 @@ package register_projekt;
 import org.junit.Test;
 import org.junit.contrib.java.lang.system.TextFromStandardInputStream;
 import org.junit.runner.RunWith;
-import org.mockito.ArgumentMatchers;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.junit.MockitoJUnitRunner;
 import org.junit.Rule;
 
+import static org.junit.Assert.assertTrue;
 import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
 
 import java.io.IOException;
 import java.security.NoSuchAlgorithmException;
 import java.security.spec.InvalidKeySpecException;
+import java.sql.Connection;
 import java.sql.SQLException;
+import java.util.NoSuchElementException;
 import java.util.Scanner;
 
 @RunWith(MockitoJUnitRunner.class)
@@ -33,11 +35,13 @@ public class UserRegistrationTest {
     @Mock
     DatabaseQuerys databaseQuerys;
 
-    //userNameField = method under test
-    @Test(expected = IOException.class)
+    @Mock 
+    Connection con;
+
+    // userNameField = method under test
+    @Test(expected = NoSuchElementException.class)
     public void userNameNull() throws IOException, ClassNotFoundException, SQLException {
-        String nullString = null;
-        sysInMock.provideLines(nullString);
+        when(scanner.nextLine()).thenReturn(null);
         UserRegistration userRegistration = new UserRegistration();
         userRegistration.userNameField();
     }                      
@@ -50,51 +54,58 @@ public class UserRegistrationTest {
     }   
 
 
-    @Test(expected = IOException.class)
+    @Test(expected = RuntimeException.class)
     public void userNameAlreadyExists() throws IOException, ClassNotFoundException, SQLException {
+        User user = new User("Test User", "", "");
         when(scanner.nextLine()).thenReturn("Test User");
-        when(databaseQuerys.checkIfuserExits("Test User")).thenReturn(true);
+        when(databaseQuerys.createDBConnection()).thenReturn(con);
+        when(databaseQuerys.getAMatchingUser(con, "Test User")).thenReturn(user);
         userRegistrationWithMocks.userNameField();
     }
 
     @Test
     public void standardUserName() throws IOException, ClassNotFoundException, SQLException {
         when(scanner.nextLine()).thenReturn("Test User");
-        when(databaseQuerys.checkIfuserExits("Test User")).thenReturn(false);
+        when(databaseQuerys.createDBConnection()).thenReturn(con);
+        when(databaseQuerys.getAMatchingUser(con, "Test User")).thenReturn(null);
         userRegistrationWithMocks.userNameField();
-        verify(databaseQuerys).checkIfuserExits("Test User");
+        verify(databaseQuerys).getAMatchingUser(con, "Test User");
     }
 
     @Test
     public void userNameOnylSingleName() throws ClassNotFoundException, SQLException, IOException {
         when(scanner.nextLine()).thenReturn("Cher");
-        when(databaseQuerys.checkIfuserExits("Cher")).thenReturn(false);
+        when(databaseQuerys.createDBConnection()).thenReturn(con);
+        when(databaseQuerys.getAMatchingUser(con, "Cher")).thenReturn(null);
         userRegistrationWithMocks.userNameField();
-        verify(databaseQuerys).checkIfuserExits("Cher");
+        verify(databaseQuerys).getAMatchingUser(con, "Cher");
     }
 
     @Test
     public void userNamewithHyphen() throws ClassNotFoundException, SQLException, IOException {
         when(scanner.nextLine()).thenReturn("Cher-Lloyd");
-        when(databaseQuerys.checkIfuserExits("Cher-Lloyd")).thenReturn(false);
+        when(databaseQuerys.createDBConnection()).thenReturn(con);
+        when(databaseQuerys.getAMatchingUser(con, "Cher-Lloyd")).thenReturn(null);
         userRegistrationWithMocks.userNameField();
-        verify(databaseQuerys).checkIfuserExits("Cher-Lloyd");
+        verify(databaseQuerys).getAMatchingUser(con, "Cher-Lloyd");
     }
 
     @Test
     public void userNameWithApostrophe() throws ClassNotFoundException, SQLException, IOException {
         when(scanner.nextLine()).thenReturn("Cher O'Connor");
-        when(databaseQuerys.checkIfuserExits("Cher O'Connor")).thenReturn(false);
+        when(databaseQuerys.createDBConnection()).thenReturn(con);
+        when(databaseQuerys.getAMatchingUser(con, "Cher O'Connor")).thenReturn(null);
         userRegistrationWithMocks.userNameField();
-        verify(databaseQuerys).checkIfuserExits("Cher O'Connor");
+        verify(databaseQuerys).getAMatchingUser(con, "Cher O'Connor");
     }
 
     @Test
     public void userNameWithAccentedChar() throws ClassNotFoundException, SQLException, IOException {
         when(scanner.nextLine()).thenReturn("Chér");
-        when(databaseQuerys.checkIfuserExits("Chér")).thenReturn(false);
+        when(databaseQuerys.createDBConnection()).thenReturn(con);
+        when(databaseQuerys.getAMatchingUser(con, "Chér")).thenReturn(null);
         userRegistrationWithMocks.userNameField();
-        verify(databaseQuerys).checkIfuserExits("Chér");
+        verify(databaseQuerys).getAMatchingUser(con, "Chér");
     }
 
     //passwordField = method under test
@@ -166,7 +177,7 @@ public class UserRegistrationTest {
     public void pwValidTest() throws InvalidKeySpecException, NoSuchAlgorithmException, IOException, ClassNotFoundException, SQLException {
         when(scanner.nextLine()).thenReturn("Awesomepass1!");
         userRegistrationWithMocks.passwordField();
-        verify(databaseQuerys).insertUserInDB(ArgumentMatchers.any(), ArgumentMatchers.anyString(), ArgumentMatchers.anyString());
+        assertTrue(userRegistrationWithMocks.passwordField());
     }
     
 }

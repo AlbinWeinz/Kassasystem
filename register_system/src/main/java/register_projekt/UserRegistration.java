@@ -3,6 +3,7 @@ package register_projekt;
 import java.io.IOException;
 import java.security.NoSuchAlgorithmException;
 import java.security.spec.InvalidKeySpecException;
+import java.sql.Connection;
 import java.sql.SQLException;
 import java.util.Base64;
 import java.util.Scanner;
@@ -19,14 +20,16 @@ public class UserRegistration {
     private String hashedPw;
     private String userSalt;
     private DatabaseQuerys databaseQuerys = new DatabaseQuerys();
+    private Connection con;
 
     public void userNameField() throws IOException, ClassNotFoundException, SQLException {
         userNamePrompt();
         String input = readStringInput();
         checkStringAgainstMatcher(input, userPattern);
-        if (databaseQuerys.checkIfuserExits(input)) {{
-            throw new IOException("A user with that name already exists");
-        }}
+        con = databaseQuerys.createDBConnection();
+        if (databaseQuerys.getAMatchingUser(con, input) != null) {
+            throw new RuntimeException("A user with that name already exists");
+        }
         userName = input;
     }
 
@@ -48,7 +51,7 @@ public class UserRegistration {
         return scanner.nextLine();
     }
     
-    public void passwordField() throws IOException, InvalidKeySpecException, NoSuchAlgorithmException, ClassNotFoundException, SQLException {
+    public boolean passwordField() throws IOException, InvalidKeySpecException, NoSuchAlgorithmException, ClassNotFoundException, SQLException {
         pwPrompt();
         String input = readStringInput();
         if (checkStringAgainstMatcher(input, pwPattern)) {
@@ -56,9 +59,11 @@ public class UserRegistration {
             byte[] salt = hPW.createSalt();
             userSalt = Base64.getEncoder().encodeToString(salt);
             hashedPw = hPW.hashPW(input, salt);
-            databaseQuerys.insertUserInDB(userName, hashedPw, userSalt);
+            databaseQuerys.insertUserInDB(con, userName, hashedPw, userSalt);
             registrationConfirmation();
+            return true;
         }
+        return false;
     }
 
     private void registrationConfirmation() {
