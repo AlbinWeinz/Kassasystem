@@ -15,28 +15,28 @@ public class Money {
             throw new IllegalArgumentException("Money cannot be negative");
         }
         if (BigDecimal.valueOf(amount).scale() > 2) {
-            throw new IllegalArgumentException("Ören must be between 0 and 99");
+            throw new IllegalArgumentException("Fractional part must be between 0 and 99");
         }
         this.amount = BigDecimal.valueOf(amount);
         // .setScale(2, RoundingMode.HALF_UP);
     }
 
-    public Money(long kronor, long oren) {
-        if (oren < 0 || oren > 99) {
-            throw new IllegalArgumentException("Ören must be between 0 and 99");
+    public Money(long integer, long fractional) {
+        if (fractional < 0 || fractional > 99) {
+            throw new IllegalArgumentException("Fractional part must be between 0 and 99");
         }
-        this.amount = BigDecimal.valueOf(kronor).add(BigDecimal.valueOf(oren).divide(BigDecimal.valueOf(100)));
+        this.amount = BigDecimal.valueOf(integer).add(BigDecimal.valueOf(fractional).divide(BigDecimal.valueOf(100)));
         // .setScale(2, RoundingMode.HALF_UP);
         if (this.amount.compareTo(BigDecimal.ZERO) < 0) {
             throw new IllegalArgumentException("Money cannot be negative");
         }
     }
 
-    public long getKronor() {
+    public long getInteger() {
         return amount.longValue();
     }
 
-    public long getOren() {
+    public long getFractional() {
         return (amount.remainder(BigDecimal.ONE).multiply(BigDecimal.valueOf(100)).longValue());
     }
 
@@ -60,8 +60,16 @@ public class Money {
         return new Money(amount.setScale(0, RoundingMode.HALF_UP).doubleValue());
     }
 
+    public boolean equals(Money other) {
+        return this.amount.equals(other.amount);
+    }
+
+    public int compareTo(Money other) {
+        return this.amount.compareTo(other.amount);
+    }
+
     @Override
     public String toString() {
-        return String.format("%d.%02d kr", getKronor(), getOren());
+        return String.format("%d.%02d", getInteger(), getFractional());
     }
 }
