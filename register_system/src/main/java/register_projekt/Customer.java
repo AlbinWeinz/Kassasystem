@@ -18,18 +18,15 @@ public class Customer {
         this.membership=membership;
         this.points=points;
         this.email=email;
+        this.points=0.0;
+        this.membership="Not a member";
+        this.amountSpent=0;
+        this.amountOfPurchases=0;
+        this.yearsAsMember=0;
     }
 
     public Customer(){
-        this.amountSpent=amountSpent;
-        this.amountOfPurchases=amountOfPurchases;
-        this.yearsAsMember=yearsAsMember;
-    }
-
-    public Customer(int amountSpent,int amountOfPurchases, int yearsAsMember){
-        this.amountSpent=amountSpent;
-        this.amountOfPurchases=amountOfPurchases;
-        this.yearsAsMember=yearsAsMember;
+        Customer customer=new Customer();
     }
 
     public String getPersonalNumber(){
@@ -44,12 +41,12 @@ public class Customer {
     }
 
     public double calculatePoints(int amountSpent, int amountOfPurchases, int yearsAsMember){
-        points=(amountOfPurchases * 0.1) * (amountSpent * 0.05) * ( yearsAsMember * 0.2);
-        return points;
+        double points1=(amountOfPurchases * 0.1) * (amountSpent * 0.05) * ( yearsAsMember * 0.2);
+        return points=points1;
     }
 
-    public String membershipStatus(double points){
-        //double points = calculatePoints(amountSpent, amountOfPurchases, yearsAsMember);
+    public String membershipStatus(){
+        //points = calculatePoints(amountSpent, amountOfPurchases, yearsAsMember);
         if (points>30){
             membership="Gold";
             return membership;
@@ -60,7 +57,7 @@ public class Customer {
             membership="Bronze";
             return membership;
         }else if (points>0){
-            membership="New membership";
+            membership="New member";
             return membership;
         }else{
             return "Not a member";
@@ -92,10 +89,22 @@ public class Customer {
 
     }
     public void setEmail(String newEmail) {
-        this.email=newEmail;
+        email=newEmail;
     }
 
     public void setName(String newName) {
-        this.name=name;
+        name=newName;
+    }
+
+    public int getAmountOfPurchases() {
+        return amountOfPurchases;
+    }
+
+    public int getAmountSpent() {
+        return amountSpent;
+    }
+
+    public int getYearsAsMember() {
+        return yearsAsMember;
     }
 }

@@ -7,16 +7,13 @@ public class PurchasesHistory extends Customer {
 
     private List<Customer> customerDataList = new ArrayList<>();
 
-    public PurchasesHistory(String personalNumber, int amountSpent, int yearsAsMember, int amountOfPurchases) {
-        super();
+    public PurchasesHistory(String personalNumber, int amountSpent, int yearsAsMember) {
         this.personalNumber=personalNumber;
+        this.amountSpent=amountSpent;
+        this.yearsAsMember=yearsAsMember;
     }
 
     public PurchasesHistory() {
-    }
-
-
-    public PurchasesHistory(String personalNumber, int amountSpent, int yearsAsMember) {
 
     }
 
@@ -28,14 +25,17 @@ public class PurchasesHistory extends Customer {
 
     }
 
-    public Customer updatePurchasesHistory(int newYearsAsMember, int newAmountSpent, int newAmountOfPurchases) {
-        super.amountOfPurchases += newAmountOfPurchases;
-        super.amountSpent += newAmountSpent;
-        super.yearsAsMember += newYearsAsMember;
+    public Customer updatePurchasesHistory(String personalNumber,int newYearsAsMember, int newAmountSpent, int newAmountOfPurchases) {
+        if(super.personalNumber.equals(personalNumber)) {
+            super.amountOfPurchases += newAmountOfPurchases;
+            super.amountSpent += newAmountSpent;
+            super.yearsAsMember += newYearsAsMember;
 
-        return this;
+            return this;
+        }
 
         //super.points=calculatePoints(newAmountOfPurchases, newAmountSpent, newYearsAsMember); uppdaterar poängen tror jag
+        return null;
     }
 
     public double averageAmountPerCustomer (String personalNumber){
@@ -70,6 +70,14 @@ public class PurchasesHistory extends Customer {
             customerDataList.remove(customer);
             break;
         }
+    }
+
+    public List<Customer> getCustomerDataList() {
+        return customerDataList;
+    }
+
+    public void setCustomerDataList(List<Customer> customerDataList) {
+        this.customerDataList=customerDataList;
     }
 
     @Override
