@@ -1,3 +1,4 @@
+package register_projekt;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.BeforeEach;
 import static org.junit.jupiter.api.Assertions.*;
@@ -118,8 +119,6 @@ public class CategoryTest {
         assertTrue(category.getProductCount() == 0);
     }
 
-
-
     @Test
     public void testUpdateProductPrice() {
         Product product = new Product("Milk", 12.50);
@@ -132,6 +131,9 @@ public class CategoryTest {
     public void testUpdateProductPrice_ProductNotFound() {
         String productName = "Product not found";
         Double newPrice = 10.0;
+        Category category1= new Category();
+        Category updatePrice= category1;
+        assertNotEquals(productName, newPrice);
     }
     @Test
     public void testSortProductsByName() {
