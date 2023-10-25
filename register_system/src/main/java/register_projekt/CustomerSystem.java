@@ -55,6 +55,7 @@ public class CustomerSystem {
                     case 4 -> System.out.print(Customers.getAllCustomers());
                     default -> System.out.println("Ogiltigt!");
                 }
+                scanner.close();
             }
         }
     }
