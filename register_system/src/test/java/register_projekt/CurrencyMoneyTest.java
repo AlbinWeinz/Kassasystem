@@ -4,10 +4,10 @@ import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertFalse;
 import static org.junit.Assert.assertTrue;
 
-import java.util.Currency;
-
 import org.junit.Assert;
 import org.junit.Test;
+
+import java.util.Currency;
 
 public class CurrencyMoneyTest {
 
@@ -68,7 +68,6 @@ public class CurrencyMoneyTest {
         CurrencyMoney money2 = new CurrencyMoney(50, Currency.getInstance("SEK"));
         CurrencyMoney money3 = new CurrencyMoney(50, Currency.getInstance("USD"));
         CurrencyMoney money4 = new CurrencyMoney(100, Currency.getInstance("EUR"));
-
         assertTrue(money1.isSameCurrency(money2));
         assertFalse(money1.isSameCurrency(money3));
         assertFalse(money1.isSameCurrency(money4));
@@ -130,7 +129,6 @@ public class CurrencyMoneyTest {
         CurrencyMoney money3 = new CurrencyMoney(1050, Currency.getInstance("SEK"));
         CurrencyMoney money4 = new CurrencyMoney(10.50, Currency.getInstance("USD"));
         CurrencyMoney money5 = new CurrencyMoney(10, 50, Currency.getInstance("EUR"));
-
         assertTrue(money1.equals(money2));
         assertFalse(money1.equals(money3));
         assertFalse(money1.equals(money4));
