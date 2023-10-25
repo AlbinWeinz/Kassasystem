@@ -82,6 +82,7 @@ public class MoneyTest {
         Assert.assertEquals(75, sum.getFractional());
         Assert.assertEquals(15.75, sum.getAmount(), 0.01);
         Assert.assertEquals("15.75", sum.toString());
+        Assert.assertEquals(new Money(15, 75), sum);
     }
 
     @Test
@@ -93,6 +94,7 @@ public class MoneyTest {
         Assert.assertEquals(25, difference.getFractional());
         Assert.assertEquals(5.25, difference.getAmount(), 0.01);
         Assert.assertEquals("5.25", difference.toString());
+        Assert.assertEquals(new Money(5, 25), difference);
     }
 
     @Test
@@ -103,6 +105,7 @@ public class MoneyTest {
         Assert.assertEquals(25, product.getFractional());
         Assert.assertEquals(26.25, product.getAmount(), 0.01);
         Assert.assertEquals("26.25", product.toString());
+        Assert.assertEquals(new Money(26, 25), product);
     }
 
     @Test
@@ -113,6 +116,7 @@ public class MoneyTest {
         Assert.assertEquals(0, rounded.getFractional());
         Assert.assertEquals(10.00, rounded.getAmount(), 0.01);
         Assert.assertEquals("10.00", rounded.toString());
+        Assert.assertEquals(new Money(10), rounded);
 
     }
 
@@ -124,6 +128,7 @@ public class MoneyTest {
         Assert.assertEquals(0, rounded.getFractional());
         Assert.assertEquals(11.0, rounded.getAmount(), 0.01);
         Assert.assertEquals("11.00", rounded.toString());
+        Assert.assertEquals(new Money(11), rounded);
     }
 
     @Test
@@ -134,6 +139,7 @@ public class MoneyTest {
         Assert.assertEquals(0, rounded.getFractional());
         Assert.assertEquals(11.0, rounded.getAmount(), 0.01);
         Assert.assertEquals("11.00", rounded.toString());
+        Assert.assertEquals(new Money(11), rounded);
     }
 
     @Test
@@ -143,6 +149,13 @@ public class MoneyTest {
         Money money3 = new Money(1050);
         assertTrue(money1.equals(money2));
         assertFalse(money1.equals(money3));
+    }
+
+    @Test
+    public void equalsReturnsFalseForNonMoneyObjects() {
+        Money money = new Money(10.0);
+        int number = 10;
+        assertFalse(money.equals(number));
     }
 
     @Test

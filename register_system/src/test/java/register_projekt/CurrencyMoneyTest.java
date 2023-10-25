@@ -83,6 +83,7 @@ public class CurrencyMoneyTest {
         Assert.assertEquals(75, sum.getFractional());
         Assert.assertEquals(15.75, sum.getAmount(), 0.01);
         Assert.assertEquals("15.75 kr", sum.toString());
+        Assert.assertEquals(new CurrencyMoney(15, 75, Currency.getInstance("SEK")), sum);
     }
 
     @Test(expected = IllegalArgumentException.class)
@@ -101,6 +102,7 @@ public class CurrencyMoneyTest {
         Assert.assertEquals(25, difference.getFractional());
         Assert.assertEquals(5.25, difference.getAmount(), 0.01);
         Assert.assertEquals("5.25 kr", difference.toString());
+        Assert.assertEquals(new CurrencyMoney(5, 25, Currency.getInstance("SEK")), difference);
     }
 
     @Test(expected = IllegalArgumentException.class)
@@ -108,6 +110,17 @@ public class CurrencyMoneyTest {
         CurrencyMoney money1 = new CurrencyMoney(10.50, Currency.getInstance("SEK"));
         CurrencyMoney money2 = new CurrencyMoney(5.25, Currency.getInstance("EUR"));
         money1.subtract(money2);
+    }
+
+    @Test
+    public void multiplicationIsCorrectlyCalculated() {
+        CurrencyMoney money = new CurrencyMoney(10, 50, Currency.getInstance("SEK"));
+        CurrencyMoney product = money.multiply(2.5);
+        Assert.assertEquals(26, product.getInteger());
+        Assert.assertEquals(25, product.getFractional());
+        Assert.assertEquals(26.25, product.getAmount(), 0.01);
+        Assert.assertEquals("26.25 kr", product.toString());
+        Assert.assertEquals(new CurrencyMoney(26, 25, Currency.getInstance("SEK")), product);
     }
 
     @Test

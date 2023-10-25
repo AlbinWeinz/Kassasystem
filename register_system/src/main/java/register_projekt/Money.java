@@ -3,7 +3,7 @@ package register_projekt;
 import java.math.BigDecimal;
 import java.math.RoundingMode;
 
-public class Money {
+public class Money implements Comparable<Money> {
     private BigDecimal amount;
 
     public Money() {
@@ -60,10 +60,17 @@ public class Money {
         return new Money(amount.setScale(0, RoundingMode.HALF_UP).doubleValue());
     }
 
-    public boolean equals(Money other) {
+    @Override
+    public boolean equals(Object o) {
+        if (this == o)
+            return true;
+        if (o == null || getClass() != o.getClass())
+            return false;
+        Money other = (Money) o;
         return this.amount.equals(other.amount);
     }
 
+    @Override
     public int compareTo(Money other) {
         return this.amount.compareTo(other.amount);
     }

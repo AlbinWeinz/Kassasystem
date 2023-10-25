@@ -44,11 +44,20 @@ public class CurrencyMoney extends Money {
         return new CurrencyMoney(getAmount() - other.getAmount(), currency);
     }
 
-    public boolean equals(CurrencyMoney other) {
-        if (isSameCurrency(other)) {
-            return BigDecimal.valueOf(this.getAmount()).equals(BigDecimal.valueOf(other.getAmount()));
-        }
-        return false;
+    public CurrencyMoney multiply(double n) {
+        return new CurrencyMoney(BigDecimal.valueOf(getAmount()).multiply(BigDecimal.valueOf(n))
+                .setScale(2, RoundingMode.HALF_UP).doubleValue(), currency);
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o)
+            return true;
+        if (o == null || getClass() != o.getClass())
+            return false;
+        CurrencyMoney other = (CurrencyMoney) o;
+        return isSameCurrency(other)
+                && BigDecimal.valueOf(this.getAmount()).equals(BigDecimal.valueOf(other.getAmount()));
     }
 
     public int compareTo(CurrencyMoney other) {
