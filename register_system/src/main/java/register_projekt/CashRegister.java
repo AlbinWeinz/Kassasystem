@@ -3,74 +3,80 @@ package register_projekt;
 import java.util.Scanner;
 
 public class CashRegister {
-        public static void main(String[] args) {
-            Category category = new Category();
-            Scanner scanner = new Scanner(System.in);
-            boolean isRunning = true;
+    public static void main(String[] args) {
+        Category category = new Category();
+        Scanner scanner = new Scanner(System.in);
+        boolean isRunning = true;
 
-            while (isRunning) {
-                System.out.println("\nCash Register Menu:");
-                System.out.println("1. add product to category");
-                System.out.println("2. Check price of a product by name");
-                System.out.println("3  Add customer");
-                System.out.println("4. Search for customer by name");
-                System.out.println("5. Update purchase history");
-                System.out.println("6. Calculate total amount");
-                System.out.println("7. Exit");
-                System.out.print("Enter your choice: ");
+        while (isRunning) {
+            System.out.println("\nCash Register Menu:");
+            System.out.println("1. add product to category");
+            System.out.println("2. Check price of a product by name");
+            System.out.println("3  Add customer");
+            System.out.println("4. Search for customer by name");
+            System.out.println("5. Update purchase history");
+            System.out.println("6. Calculate total amount");
+            System.out.println("7. Payment");
+            System.out.println("8. Exist");
+            System.out.print("Enter your choice: ");
 
-                int choice = scanner.nextInt();
+            int choice = scanner.nextInt();
 
-                switch (choice) {
-                    case 1 -> {
-                        System.out.print("Enter product name: ");
-                        String productName = scanner.next();
-                        System.out.print("Enter price of product");
-                        Double productPrice = scanner.nextDouble();
-                        Product product = new Product(productName, productPrice);
-                        category.addToCategory(product);
-                        System.out.println("Product added");
+            switch (choice) {
+                case 1 -> {
+                    System.out.print("Enter product name: ");
+                    String productName = scanner.next();
+                    System.out.print("Enter price of product");
+                    Double productPrice = scanner.nextDouble();
+                    Product product = new Product(productName, productPrice);
+                    category.addToCategory(product);
+                    System.out.println("Product added");
+                }
+                case 2 -> {
+                    System.out.print("Enter the name of the product: ");
+                    String productToCheck = scanner.next();
+                    Double price = category.getProductPrice(productToCheck);
+                    if (price != null) {
+                        System.out.println("The price of " + productToCheck + " is: " + price);
+                    } else {
+                        System.out.println("Product not found.");
                     }
-                    case 2 -> {
-                        System.out.print("Enter the name of the product: ");
-                        String productToCheck = scanner.next();
-                        Double price = category.getProductPrice(productToCheck);
-                        if (price != null) {
-                            System.out.println("The price of " + productToCheck + " is: " + price);
-                        } else {
-                            System.out.println("Product not found.");
-                        }
-                    }
-                    case 3 -> {
-                        System.out.print("Enter customer name");
-                        String name = scanner.next();
-                        System.out.print("Enter customers personal number");
-                        String personalNumber = scanner.next();
-                        System.out.print("Enter customers age ");
-                        int age = scanner.nextInt();
-                        System.out.print("Enter points");
-                        double points= scanner.nextDouble();
-                        System.out.print("Enter membership");
-                        String membership= scanner.next();
-                        System.out.print("Enter customers email");
-                        String email = scanner.next();
+                }
+                case 3 -> {
+                    System.out.print("Enter customer name");
+                    String name = scanner.next();
+                    System.out.print("Enter customers personal number");
+                    String personalNumber = scanner.next();
+                    System.out.print("Enter customers age ");
+                    int age = scanner.nextInt();
+                    System.out.print("Enter points");
+                    double points = scanner.nextDouble();
+                    System.out.print("Enter membership");
+                    String membership = scanner.next();
+                    System.out.print("Enter customers email");
+                    String email = scanner.next();
 
-                        Customers customers = new Customers();
-                        customers.addCustomer(name, personalNumber, age, points, membership, email);
-                        System.out.print("Customer added");
+                    Customers customers = new Customers();
+                    customers.addCustomer(name, personalNumber, age, points, membership, email);
+                    System.out.print("Customer added");
+                }
+                case 4 -> {
+                    System.out.print("Enter customer name: ");
+                    String name = scanner.next();
+                    String customerName = Customers.nameSearch(name);
+                    if (customerName != null) {
+                        System.out.println("Customer found: " + customerName);
+                    } else {
+                        System.out.println("Customer not found.");
                     }
-                    case 4 -> {
-                        System.out.print("Enter customer name");
-                        String name = Customer.getName();
-                        Customers.nameSearch(name);
-                    }
-                    case 5 ->{
-                        System.out.print("Enter customer's personal number: ");
-                        String personalNumber = scanner.next();
-                        Customers customers= new Customers();
-                        String customerInfo=customers.personalNumberSearch(personalNumber);
+                }
+                case 5 -> {
+                    System.out.print("Enter customer's personal number: ");
+                    String personalNumber = scanner.next();
+                    Customers customers = new Customers();
+                    String customerInfo = customers.personalNumberSearch(personalNumber);
 
-                    if (customerInfo!= null){
+                    if (customerInfo != null) {
                         System.out.print("Enter new years as member: ");
                         int newYearsAsMember = scanner.nextInt();
 
@@ -85,33 +91,59 @@ public class CashRegister {
 
                     } else {
                         System.out.println("Customer not found.");
-                            }
                     }
-                    case 6 ->{
-                        System.out.println("Calculate Total Amount for a Product");
-                        System.out.print("Enter product name: ");
-                        String productName = scanner.next();
-                        Double productPrice = category.getProductPrice(productName);
+                }
+                case 6 -> {
+                    System.out.println("Calculate Total Amount for a Product");
+                    System.out.print("Enter product name: ");
+                    String productName = scanner.next();
+                    Double productPrice = category.getProductPrice(productName);
 
-                        if (productPrice != null) {
-                            System.out.print("Enter quantity: ");
-                            int quantity = scanner.nextInt();
+                    if (productPrice != null) {
+                        System.out.print("Enter quantity: ");
+                        int quantity = scanner.nextInt();
 
-                            Product product = new Product(productName, productPrice);
-                            Money totalAmount = product.getTotalAmount(quantity);
+                        Product product = new Product(productName, productPrice);
+                        Money totalAmount = product.getTotalAmount(quantity);
 
-                            System.out.println("Total cost for " + quantity + " " + productName + " is: " + totalAmount);
-                        } else {
-                            System.out.println("Product not found.");
+                        System.out.println("Total cost for " + quantity + " " + productName + " is: " + totalAmount);
+                    } else {
+                        System.out.println("Product not found.");
+                    }
+
+                }
+                case 7 -> {
+                    System.out.print("Payment");
+                    double paymentAmount = scanner.nextDouble();
+                    CheckOut checkOut = new CheckOut(new CheckOut.Payment() {
+                        @Override
+                        public boolean chargeCard(double amount) {
+                            if (amount > 0) {
+                                return true;
+                            } else {
+                                return false;
+                            }
                         }
 
+                    });
+                    try {
+                        boolean paymentSuccess = checkOut.processPayment(paymentAmount);
+                        if (paymentSuccess) {
+                            System.out.print("Payment was successful");
+                        } else {
+                            System.out.print("Payment failed");
+                        }
+                    } catch (PaymentFailedException e) {
+                        System.out.print("Payment failed" + e.getMessage());
                     }
-                    case 7 -> isRunning = false;
-                    default -> System.out.println("Invalid choice. Please enter a valid option.");
                 }
+                case 8 -> isRunning = false;
+                default -> System.out.println("Invalid choice. Please enter a valid option.");
             }
-
-            System.out.println("Cash Register session ended. Thank you!");
+            System.out.print("Cash Register session ended. Thank you!");
         }
+
+    }
 }
+
 
