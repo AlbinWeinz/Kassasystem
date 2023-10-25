@@ -1,3 +1,4 @@
+package register_projekt;
 import java.util.Objects;
 
 public class Product {
