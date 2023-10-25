@@ -17,11 +17,14 @@ public class Product {
         return this.productName;
 
     }
-
     public Double getProductPrice() {
         return this.productPrice;
     }
 
+    public Money getTotalAmount(int quantity) {
+        double total = productPrice * quantity;
+        return new Money(total);
+    }
 
     @Override
     public String toString() {

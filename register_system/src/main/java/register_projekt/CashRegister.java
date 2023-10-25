@@ -14,10 +14,9 @@ public class CashRegister {
                 System.out.println("2. Check price of a product by name");
                 System.out.println("3  Add customer");
                 System.out.println("4. Search for customer by name");
-                System.out.println("5. Calculate discount");
-                System.out.println("6. Check if product has age restriction");
-                System.out.println("7. Calculate product price");
-                System.out.println("8. Exit");
+                System.out.println("5. Update purchase history");
+                System.out.println("6. Calculate total amount");
+                System.out.println("7. Exit");
                 System.out.print("Enter your choice: ");
 
                 int choice = scanner.nextInt();
@@ -44,34 +43,75 @@ public class CashRegister {
                     }
                     case 3 -> {
                         System.out.print("Enter customer name");
-                        String Name = scanner.next();
-                        System.out.print("Enter customers personalnumber");
+                        String name = scanner.next();
+                        System.out.print("Enter customers personal number");
                         String personalNumber = scanner.next();
                         System.out.print("Enter customers age ");
                         int age = scanner.nextInt();
-                        System.out.print(" Enter points");
+                        System.out.print("Enter points");
                         double points= scanner.nextDouble();
                         System.out.print("Enter membership");
                         String membership= scanner.next();
-                        System.out.print(" Enter customers emali");
+                        System.out.print("Enter customers email");
                         String email = scanner.next();
 
-                        Customer customer = new Customer(Name, personalNumber, age, points, membership, email);
-                        Customers.addCustomer(customer); // addcustomer är non static och can inte be referenced
+                        Customers customers = new Customers();
+                        customers.addCustomer(name, personalNumber, age, points, membership, email);
                         System.out.print("Customer added");
                     }
                     case 4 -> {
-                        System.out.print(" Enter customer name");
-                        String customerName = scanner.next();
+                        System.out.print("Enter customer name");
                         String name = Customer.getName();
-                        Customers.nameSearch();
+                        Customers.nameSearch(name);
                     }
-                    case 8 -> isRunning = false;
+                    case 5 ->{
+                        System.out.print("Enter customer's personal number: ");
+                        String personalNumber = scanner.next();
+                        Customers customers= new Customers();
+                        String customerInfo=customers.personalNumberSearch(personalNumber);
+
+                    if (customerInfo!= null){
+                        System.out.print("Enter new years as member: ");
+                        int newYearsAsMember = scanner.nextInt();
+
+                        System.out.print("Enter new amount spent: ");
+                        int newAmountSpent = scanner.nextInt();
+
+                        System.out.print("Enter new amount of purchases: ");
+                        int newAmountOfPurchases = scanner.nextInt();
+
+                        PurchasesHistory purchasesHistory = new PurchasesHistory();
+                        purchasesHistory.updatePurchasesHistory(personalNumber, newYearsAsMember, newAmountSpent, newAmountOfPurchases);
+
+                    } else {
+                        System.out.println("Customer not found.");
+                            }
+                    }
+                    case 6 ->{
+                        System.out.println("Calculate Total Amount for a Product");
+                        System.out.print("Enter product name: ");
+                        String productName = scanner.next();
+                        Double productPrice = category.getProductPrice(productName);
+
+                        if (productPrice != null) {
+                            System.out.print("Enter quantity: ");
+                            int quantity = scanner.nextInt();
+
+                            Product product = new Product(productName, productPrice);
+                            Money totalAmount = product.getTotalAmount(quantity);
+
+                            System.out.println("Total cost for " + quantity + " " + productName + " is: " + totalAmount);
+                        } else {
+                            System.out.println("Product not found.");
+                        }
+
+                    }
+                    case 7 -> isRunning = false;
                     default -> System.out.println("Invalid choice. Please enter a valid option.");
                 }
             }
 
             System.out.println("Cash Register session ended. Thank you!");
         }
-    }
+}
 
