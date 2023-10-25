@@ -33,16 +33,12 @@ public class VATCalculator {
         if (vatPercentage < 0) {
             throw new IllegalArgumentException("VAT percentage cannot be negative");
         }
-
         BigDecimal totalVATForCurrency = getTotalVAT(price.getCurrency());
-
         BigDecimal vatAmount = BigDecimal.valueOf(price.getAmount())
                 .multiply(BigDecimal.valueOf(vatPercentage).divide(new BigDecimal(100)))
                 .setScale(2, RoundingMode.HALF_UP);
-
         totalVATForCurrency = totalVATForCurrency.add(vatAmount);
         totalVAT.put(price.getCurrency(), totalVATForCurrency);
-
         return vatAmount;
     }
 
