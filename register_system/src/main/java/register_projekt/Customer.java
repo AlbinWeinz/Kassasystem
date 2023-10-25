@@ -26,7 +26,7 @@ public class Customer {
     }
 
     public Customer(){
-        Customer customer=new Customer();
+
     }
 
     public String getPersonalNumber(){
@@ -45,7 +45,7 @@ public class Customer {
         return points=points1;
     }
 
-    public String membershipStatus(){
+    public String membershipStatus(double points){
         points = calculatePoints(amountSpent, amountOfPurchases, yearsAsMember);
         if (points>30){
             membership="Gold";
