@@ -5,7 +5,7 @@ import java.util.ArrayList;
 import java.util.List;
 ///Det är bara hur långt jag har kommit, tänker mig ett medlemsystem som personalen använder
 public class Customers {
-    private List<Customer> customersList=new ArrayList<>();
+    private static List<Customer> customersList=new ArrayList<>();
     public Customer addCustomer(String name, String personalNumber, int age, double points, String membership, String email){
         Customer customer = new Customer(name, personalNumber, age, points, membership, email);
         customersList.add(customer);
@@ -35,7 +35,7 @@ public class Customers {
         return null;
     }
 
-    public String nameSearch(String name){
+    public static String nameSearch(String name){
         for (Customer customer: customersList){
             if (customer.getName().equalsIgnoreCase(name)){
                 return customer.toString();
@@ -62,7 +62,7 @@ public class Customers {
         return null;
     }
 
-    public List<String> getAllCustomers() {
+    public static List<String> getAllCustomers() {
         List<String> allCustomersList = new ArrayList<>();
         for (Customer customer : customersList) {
             allCustomersList.add(customer.toString());

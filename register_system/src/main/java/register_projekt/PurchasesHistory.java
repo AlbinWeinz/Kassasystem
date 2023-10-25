@@ -5,7 +5,7 @@ import java.util.List;
 
 public class PurchasesHistory extends Customer {
 
-    private List<Customer> customerDataList = new ArrayList<>();
+    protected List<Customer> customerDataList = new ArrayList<>();
 
     public PurchasesHistory(String personalNumber, int amountSpent, int yearsAsMember) {
         this.personalNumber=personalNumber;

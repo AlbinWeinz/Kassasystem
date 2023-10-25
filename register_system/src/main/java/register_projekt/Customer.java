@@ -46,7 +46,7 @@ public class Customer {
     }
 
     public String membershipStatus(){
-        //points = calculatePoints(amountSpent, amountOfPurchases, yearsAsMember);
+        points = calculatePoints(amountSpent, amountOfPurchases, yearsAsMember);
         if (points>30){
             membership="Gold";
             return membership;
