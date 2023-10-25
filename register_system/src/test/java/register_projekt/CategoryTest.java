@@ -164,9 +164,9 @@ public class CategoryTest {
     public void testCategoryError() {
         Exception testException = new Exception("Test Exception Message");
         category.categoryError(testException);
-        String consoleOutput = outputStream.toString();
-        assertTrue(consoleOutput.contains("An error occurred: Test Exception Message"));
-        assertTrue(consoleOutput.contains("java.lang.Exception"));
+        String systemOutput = outputStream.toString();
+        assertTrue(systemOutput.contains("An error occurred: Test Exception Message"));
+        assertTrue(systemOutput.contains("java.lang.Exception"));
     }
 }
 
