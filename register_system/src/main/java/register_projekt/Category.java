@@ -27,7 +27,6 @@ public class Category {
             return true;
         }
     }
-
     public boolean containsProduct(String productName) {
         return categoryMap.containsKey(productName);
     }
