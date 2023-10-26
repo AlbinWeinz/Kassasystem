@@ -22,8 +22,7 @@ public class CategoryTest {
 
     @Test
     public void testAddProductToCategoryWithNullReference(){
-        Product product=null;
-        assertThrows(IllegalArgumentException.class,()->category.addToCategory(product));
+        assertThrows(IllegalArgumentException.class,()->category.addToCategory(null));
     }
 
     @Test
@@ -115,7 +114,7 @@ public class CategoryTest {
     public void testCategoryDoesNotContainProduct(){
         Product product = new Product("Strawberry", 25.50);
         category.addToCategory(product);
-        assertFalse(category.containsProduct("LingonBerry"));
+        assertFalse(category.containsProduct("Blackberry"));
     }
     @Test
     public void testClearCategory() {
