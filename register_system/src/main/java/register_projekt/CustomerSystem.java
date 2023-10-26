@@ -10,6 +10,9 @@ import java.util.Scanner;
 
 
 public class CustomerSystem {
+
+    private static Customers customerSystem= new Customers();
+
         public static void main (String[]args) throws IOException, InvalidKeySpecException, NoSuchAlgorithmException, SQLException, ClassNotFoundException {
 
 
@@ -68,22 +71,21 @@ public class CustomerSystem {
 
                     case 5-> {
 
-                        System.out.println("Ange personnummer för att t ta bort kunden:");
+                        System.out.println("Ange personnummer för att ta bort kunden:");
                         String personalNumberRemove=scanner.nextLine();
-                        Customer customer=new Customer();
-                        Customers customers=new Customers();
+                        Customer customer=customerSystem.getCustomer(personalNumberRemove);
 
-                        if(personalNumberRemove.equals(customer.getPersonalNumber())){
-                            customers.removeCustomer(customer);
+                        if(customerSystem.customerExist(customer)){
+                            customerSystem.removeCustomer(customer);
                         }else{
                             System.out.println("Ingen sådan kund");
                         }
                     }
 
-                    case 6-> {
+                   /* case 6-> {
                         System.out.print("Ange personnummer för att ta bort kunddata: ");
                         String personalNumberToRemove = scanner.nextLine();
-                        PurchasesHistory purchasesHistory = new PurchasesHistory();
+                        PurchasesHistory purchasesHistory = new PurchasesHistory(); //lägg till personalNumber
                         purchasesHistory.removeCustomerData(personalNumberToRemove);
                         System.out.println("Kunddata har tagits bort!");
                     }
@@ -102,7 +104,7 @@ public class CustomerSystem {
                             System.out.println("Ingen sådan kund");
                         }
 
-                    }
+                    } */
 
 
                     default -> System.out.println("Ogiltigt!");
