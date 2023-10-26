@@ -24,6 +24,17 @@ public class CurrencyConverterTest {
     }
 
     @Test
+    public void testExchangeRateFromServiceConstructor() {
+        Currency usd = Currency.getInstance("USD");
+        Currency eur = Currency.getInstance("EUR");
+        ExchangeRateService exchangeRateService = mock(ExchangeRateService.class);
+        when(exchangeRateService.getExchangeRate(usd, eur)).thenReturn(new BigDecimal("0.85"));
+        converter = new CurrencyConverter(exchangeRateService);
+        BigDecimal rate = converter.getExchangeRateFromService(usd, eur);
+        assertEquals(new BigDecimal("0.85"), rate);
+    }
+
+    @Test
     public void testGetExchangeRateFromService() {
         Currency usd = Currency.getInstance("USD");
         Currency eur = Currency.getInstance("EUR");

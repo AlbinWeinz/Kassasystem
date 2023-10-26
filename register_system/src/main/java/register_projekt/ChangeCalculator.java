@@ -19,8 +19,11 @@ public class ChangeCalculator {
     }
 
     public void setAvailableDenomination(Currency currency, BigDecimal denomination, int quantity) {
-        if (denomination.compareTo(BigDecimal.ZERO) <= 0 || quantity < 0) {
-            throw new IllegalArgumentException("Invalid denomination or quantity");
+        if (denomination.compareTo(BigDecimal.ZERO) <= 0) {
+            throw new IllegalArgumentException("Invalid denomination");
+        }
+        if (quantity < 0) {
+            throw new IllegalArgumentException("Invalid quantity");
         }
         Map<BigDecimal, Integer> denominations = availableDenominations.computeIfAbsent(currency,
                 k -> new LinkedHashMap<>());
@@ -33,9 +36,7 @@ public class ChangeCalculator {
 
     public void resetAvailableDenominations(Currency currency) {
         Map<BigDecimal, Integer> denominations = availableDenominations.get(currency);
-        if (denominations != null) {
-            denominations.clear();
-        }
+        denominations.clear();
     }
 
     private void updateAvailableDenominations(Currency currency, Map<BigDecimal, Integer> change) {
