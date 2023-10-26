@@ -6,16 +6,17 @@ import java.util.List;
 ///Det är bara hur långt jag har kommit, tänker mig ett medlemsystem som personalen använder
 public class Customers {
     private static List<Customer> customersList=new ArrayList<>();
-    public Customer addCustomer(String name, String personalNumber, int age, double points, String membership, String email){
+    public static Customer addCustomer(String name, String personalNumber, int age, double points, String membership, String email){
         Customer customer = new Customer(name, personalNumber, age, points, membership, email);
         customersList.add(customer);
         return customer;
     }
-    public void removeCustomer(Customer customer){
+    public static void removeCustomer(Customer customer){
         customersList.remove(customer);
+        String hej = "H";
     }
 
-    public Customer updateCustomerEmail(String personalNumber, String newEmail){
+    public static Customer updateCustomerEmail(String personalNumber, String newEmail){
        for (Customer customer: customersList){
            if(customer.getPersonalNumber().equals(personalNumber)){
                customer.setEmail(newEmail);
@@ -25,7 +26,7 @@ public class Customers {
         return null;
     }
 
-    public Customer updateCustomerName(String personalNumber, String newName){
+    public static Customer updateCustomerName(String personalNumber, String newName){
         for (Customer customer: customersList){
             if(customer.getPersonalNumber().equals(personalNumber)){
                 customer.setName(newName);
@@ -44,7 +45,7 @@ public class Customers {
         return null;
     }
 
-    public String emailSearch(String email){
+    public static String emailSearch(String email){
         for (Customer customer: customersList){
             if (customer.getEmail().equalsIgnoreCase(email)){
                 return customer.toString();
@@ -53,7 +54,7 @@ public class Customers {
         return null;
     }
 
-    public String personalNumberSearch(String personalNumber){
+    public static String personalNumberSearch(String personalNumber){
         for (Customer customer: customersList){
             if (customer.getPersonalNumber().equalsIgnoreCase(personalNumber)){
                 return customer.toString();
@@ -62,6 +63,14 @@ public class Customers {
         return null;
     }
 
+    public static boolean customerExist(Customer customerExist){
+        for (Customer customer: customersList){
+            if (customer.equals(customerExist)){
+                return true;
+            }
+        }
+       return false;
+    }
     public static List<String> getAllCustomers() {
         List<String> allCustomersList = new ArrayList<>();
         for (Customer customer : customersList) {
@@ -70,9 +79,14 @@ public class Customers {
         return allCustomersList;  //fungerar detta?
     }
 
-    /*public Customer getCustomer(String personalNumber){
-        //loopa igenom, jämför , hitta, retrunera kund
 
-    }*/
+    public static Customer getCustomer(String personalNumber){
+        for (Customer customer: customersList){
+            if (customer.getPersonalNumber().equalsIgnoreCase(personalNumber)){
+                return customer;
+            }
+        }
+        return null;
+    }
 
 }

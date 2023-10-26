@@ -18,16 +18,19 @@ public class Customer {
         this.membership=membership;
         this.points=points;
         this.email=email;
-        this.points=0.0;
-        this.membership="Not a member";
         this.amountSpent=0;
         this.amountOfPurchases=0;
         this.yearsAsMember=0;
     }
 
-    public Customer(){
-
+    public Customer(String personalNumber, int amountSpent, int yearsAsMember, int amountOfPurchases){
+        this.personalNumber=personalNumber;
+        this.amountSpent=amountSpent;
+        this.amountOfPurchases=amountOfPurchases;
+        this.yearsAsMember=yearsAsMember;
     }
+
+
 
     public String getPersonalNumber(){
         return personalNumber;
@@ -41,12 +44,16 @@ public class Customer {
     }
 
     public double calculatePoints(int amountSpent, int amountOfPurchases, int yearsAsMember){
-        double points1=(amountOfPurchases * 0.1) * (amountSpent * 0.05) * ( yearsAsMember * 0.2);
-        return points=points1;
+        points=(amountOfPurchases * 0.1) * (amountSpent * 0.05) * ( yearsAsMember * 0.2);
+        this.amountSpent=amountSpent;
+        this.amountOfPurchases=amountOfPurchases;
+        this.yearsAsMember=yearsAsMember;
+
+        return points;
     }
 
-    public String membershipStatus(double points){
-        points = calculatePoints(amountSpent, amountOfPurchases, yearsAsMember);
+    public String membershipStatus(){
+
         if (points>30){
             membership="Gold";
             return membership;
