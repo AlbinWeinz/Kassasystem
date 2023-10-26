@@ -123,7 +123,7 @@ public class CurrencyMoneyTest {
     }
 
     @Test
-    public void equalsReturnsReturnsCorrectValue() {
+    public void equalsReturnsCorrectValue() {
         CurrencyMoney money1 = new CurrencyMoney(10, 50, Currency.getInstance("SEK"));
         CurrencyMoney money2 = new CurrencyMoney(10.50, Currency.getInstance("SEK"));
         CurrencyMoney money3 = new CurrencyMoney(1050, Currency.getInstance("SEK"));
@@ -133,6 +133,25 @@ public class CurrencyMoneyTest {
         assertFalse(money1.equals(money3));
         assertFalse(money1.equals(money4));
         assertFalse(money1.equals(money5));
+    }
+
+    @Test
+    public void equalsReturnsTrueForSameObject() {
+        CurrencyMoney money = new CurrencyMoney(10, 50, Currency.getInstance("SEK"));
+        assertTrue(money.equals(money));
+    }
+
+    @Test
+    public void equalsReturnsFalseForNonMoneyObjects() {
+        CurrencyMoney money = new CurrencyMoney(10, 50, Currency.getInstance("SEK"));
+        int number = 10;
+        assertFalse(money.equals(number));
+    }
+
+    @Test
+    public void equalsReturnsFalseForNull() {
+        CurrencyMoney money = new CurrencyMoney(10, 50, Currency.getInstance("SEK"));
+        assertFalse(money.equals(null));
     }
 
     @Test

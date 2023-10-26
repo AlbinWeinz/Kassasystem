@@ -40,9 +40,7 @@ public class CurrencyConverter {
     public CurrencyMoney convert(CurrencyMoney money, Currency toCurrency) {
         if (exchangeRates.containsKey(money.getCurrency())) {
             BigDecimal exchangeRate = exchangeRates.get(money.getCurrency()).get(toCurrency);
-            if (exchangeRate != null) {
-                return new CurrencyMoney(money.multiply(exchangeRate.doubleValue()).getAmount(), toCurrency);
-            }
+            return new CurrencyMoney(money.multiply(exchangeRate.doubleValue()).getAmount(), toCurrency);
         }
         throw new IllegalArgumentException("No exchange rate between the given currencies exits");
 

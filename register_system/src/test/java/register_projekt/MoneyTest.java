@@ -143,7 +143,7 @@ public class MoneyTest {
     }
 
     @Test
-    public void equalsReturnsReturnsCorrectValue() {
+    public void equalsReturnsCorrectValue() {
         Money money1 = new Money(10, 50);
         Money money2 = new Money(10.50);
         Money money3 = new Money(1050);
@@ -152,10 +152,22 @@ public class MoneyTest {
     }
 
     @Test
+    public void equalsReturnsTrueForSameObject() {
+        Money money = new Money(10, 50);
+        assertTrue(money.equals(money));
+    }
+
+    @Test
     public void equalsReturnsFalseForNonMoneyObjects() {
         Money money = new Money(10.0);
         int number = 10;
         assertFalse(money.equals(number));
+    }
+
+    @Test
+    public void equalsReturnsFalseForNull() {
+        Money money = new Money(10.0);
+        assertFalse(money.equals(null));
     }
 
     @Test
