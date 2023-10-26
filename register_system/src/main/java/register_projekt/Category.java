@@ -84,7 +84,6 @@ public class Category {
 
         return sortedProducts;
     }
-
     public List<Product> sortProductsByPrice() {
         if (categoryMap.isEmpty()) {
             throw new IllegalStateException("Cannot sort an empty category.");
