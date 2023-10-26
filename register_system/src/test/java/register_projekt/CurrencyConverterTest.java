@@ -2,21 +2,36 @@ package register_projekt;
 
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertFalse;
+import static org.mockito.Mockito.*;
 
 import org.junit.Before;
 import org.junit.Test;
+import org.junit.runner.RunWith;
+import org.mockito.junit.MockitoJUnitRunner;
 
 import java.math.BigDecimal;
 import java.math.RoundingMode;
 import java.util.Currency;
 import java.util.Map;
 
+@RunWith(MockitoJUnitRunner.class)
 public class CurrencyConverterTest {
     private CurrencyConverter converter;
 
     @Before
     public void setUp() {
         converter = new CurrencyConverter();
+    }
+
+    @Test
+    public void testGetExchangeRateFromService() {
+        Currency usd = Currency.getInstance("USD");
+        Currency eur = Currency.getInstance("EUR");
+        ExchangeRateService exchangeRateService = mock(ExchangeRateService.class);
+        when(exchangeRateService.getExchangeRate(usd, eur)).thenReturn(new BigDecimal("0.85"));
+        converter.setExchangeRateService(exchangeRateService);
+        BigDecimal rate = converter.getExchangeRateFromService(usd, eur);
+        assertEquals(new BigDecimal("0.85"), rate);
     }
 
     @Test
