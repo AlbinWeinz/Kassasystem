@@ -23,7 +23,7 @@ public class CheckOutTest {
     }
 
     @Test
-    public void testPaymentSuccesful() throws PaymentFailedException {
+    public void testPaymentSuccessful() throws PaymentFailedException {
         double amount = 50.0;
         Mockito.when(mockPayment.chargeCard(amount)).thenReturn(true);
 
@@ -44,13 +44,6 @@ public class CheckOutTest {
 
     @Test
     public void testChargeCard() {
-        CheckOut.Payment payment = new CheckOut.Payment() {
-            @Override
-            public boolean chargeCard(double amount) {
-                return false;
-            }
-        };
-        CheckOut checkOut1 = new CheckOut(payment);
         double amount = 100.0;
         assertThrows(PaymentFailedException.class, () -> {
             checkOut.processPayment(amount);

@@ -6,8 +6,8 @@ public class CheckOut {
         this.payment=payment;
     }
     public boolean processPayment(double amount) throws PaymentFailedException {
-            boolean paymentSucces = payment.chargeCard(amount);
-            if (!paymentSucces) {
+            boolean paymentSuccess = payment.chargeCard(amount);
+            if (!paymentSuccess) {
                 throw new PaymentFailedException("Payment Failed");
             }
             return true;
