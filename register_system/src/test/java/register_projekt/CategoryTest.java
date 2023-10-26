@@ -13,7 +13,6 @@ public class CategoryTest {
         category = new Category();
 
     }
-
     @Test
     public void testAddToCategory() {
         Product product = new Product("Milk", 12.0);
