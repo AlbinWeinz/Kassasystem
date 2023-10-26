@@ -64,7 +64,6 @@ public class Category {
 
         return true;
     }
-
     public void clearCategory() {
         categoryMap.clear();
     }
@@ -81,7 +80,6 @@ public class Category {
             Product product=new Product(productName, productPrice);
             sortedProducts.add(product);
         }
-
         return sortedProducts;
     }
     public List<Product> sortProductsByPrice() {
@@ -97,12 +95,8 @@ public class Category {
             Double productPrice = entry.getValue();
             sortedProducts.add(new Product(productName, productPrice));
         }
-
         return sortedProducts;
     }
-
-
-
 }
 
 
