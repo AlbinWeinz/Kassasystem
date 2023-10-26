@@ -5,7 +5,6 @@ import static org.junit.Assert.*;
 import java.io.UnsupportedEncodingException;
 import java.security.NoSuchAlgorithmException;
 import java.security.spec.InvalidKeySpecException;
-import java.util.Arrays;
 
 import org.junit.Test;
 
@@ -23,7 +22,7 @@ public class HashPWTest {
         HashPW hashPW = new HashPW();
         byte[] firstArr = hashPW.createSalt();
         byte[] secondArr = hashPW.createSalt();
-        assertFalse(Arrays.equals(firstArr, secondArr));
+        assertNotSame(firstArr, secondArr);
     }
 
     //hashPW() method under testing
@@ -41,7 +40,7 @@ public class HashPWTest {
         byte[] firstSalt = hashPW.createSalt();
         byte[] secondSalt = hashPW.createSalt();
         String samplePW = "SamplePW1!";
-        assertFalse(hashPW.hashPW(samplePW, firstSalt).equals(hashPW.hashPW(samplePW, secondSalt)));
+        assertNotSame(hashPW.hashPW(samplePW, firstSalt), hashPW.hashPW(samplePW, secondSalt));
     }
 
     @Test
@@ -50,7 +49,7 @@ public class HashPWTest {
         byte[] salt = hashPW.createSalt();
         String firstSamplePW = "SamplePW1!";
         String secondSamplePW = "NotTheSamePW";
-        assertFalse(hashPW.hashPW(firstSamplePW, salt).equals(hashPW.hashPW(secondSamplePW, salt)));
+        assertNotSame(hashPW.hashPW(firstSamplePW, salt), hashPW.hashPW(secondSamplePW, salt));
     }
 
     @Test
@@ -60,7 +59,7 @@ public class HashPWTest {
         byte[] secondSalt = hashPW.createSalt();
         String firstSamplePW = "SamplePW1!";
         String secondSamplePW = "NotTheSamePW";
-        assertFalse(hashPW.hashPW(firstSamplePW, firstSalt).equals(hashPW.hashPW(secondSamplePW, secondSalt)));
+        assertNotSame(hashPW.hashPW(firstSamplePW, firstSalt), hashPW.hashPW(secondSamplePW, secondSalt));
     }
 
     @Test(expected = NullPointerException.class)

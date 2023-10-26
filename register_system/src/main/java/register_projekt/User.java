@@ -2,7 +2,7 @@ package register_projekt;
 
 public class User {
 
-    private String user;
+    private String userName;
     private String hashedPw;
     private String salt;
 
@@ -10,15 +10,15 @@ public class User {
 
     }
 
-    public User(String user, String hashedPw, String salt) {
-        this.user = user;
+    public User(String userName, String hashedPw, String salt) {
+        this.userName = userName;
         this.hashedPw = hashedPw;
         this.salt = salt;
 
     }
 
-    public String getUser() {
-        return user;
+    public String getUserName() {
+        return userName;
     }
 
     public String getHashedPw() {
@@ -37,7 +37,7 @@ public class User {
         this.hashedPw = hashedPw;
     }
 
-    public void setUser(String user) {
-        this.user = user;
+    public void setUserName(String userName) {
+        this.userName = userName;
     }
 }

@@ -12,13 +12,10 @@ import java.util.regex.Pattern;
 
 public class UserRegistration {
 
-    private final Pattern userPattern = Pattern.compile("^[\\p{L}\\s.'\\-,]+$");
-    private final Pattern pwPattern = Pattern.compile("^(?=.*[0-9])(?=.*[a-z])(?=.*[A-Z])(?=.*[!@#&()-[{}]:;',?/*~$^+=<>])[A-Za-z0-9!@#&()-[{}]:;',?/*~$^+=<>]{8,20}$");
-    private Matcher matcher;
+    private static final Pattern userPattern = Pattern.compile("^[\\p{L}\\s.'\\-,]+$");
+    private static final Pattern pwPattern = Pattern.compile("^(?=.*[0-9])(?=.*[a-z])(?=.*[A-Z])(?=.*[!@#&()-[{}]:;',?/*~$^+=<>])[A-Za-z0-9!@#&()-[{}]:;',?/*~$^+=<>]{8,20}$");
     private Scanner scanner = new Scanner(System.in);
-    private String userName;
-    private String hashedPw;
-    private String userSalt;
+    private User newUser = new User();
     private DatabaseQuerys databaseQuerys = new DatabaseQuerys();
     private Connection con;
 
@@ -28,13 +25,15 @@ public class UserRegistration {
         checkStringAgainstMatcher(input, userPattern);
         con = databaseQuerys.createDBConnection();
         if (databaseQuerys.getAMatchingUser(con, input) != null) {
+            scanner.close();
+            con.close();
             throw new RuntimeException("A user with that name already exists");
         }
-        userName = input;
+        newUser.setUserName(input);
     }
 
     private boolean checkStringAgainstMatcher(String input, Pattern pattern) throws IOException {
-        matcher = pattern.matcher(input);
+        Matcher matcher = pattern.matcher(input);
         if (matcher.find()) {
             return true;
         }
@@ -47,22 +46,25 @@ public class UserRegistration {
         System.out.print("Enter Name: ");
     }
 
-    protected String readStringInput() {
+    private String readStringInput() {
         return scanner.nextLine();
     }
     
     public boolean passwordField() throws IOException, InvalidKeySpecException, NoSuchAlgorithmException, ClassNotFoundException, SQLException {
         pwPrompt();
         String input = readStringInput();
+        scanner.close();
         if (checkStringAgainstMatcher(input, pwPattern)) {
             HashPW hPW = new HashPW();
             byte[] salt = hPW.createSalt();
-            userSalt = Base64.getEncoder().encodeToString(salt);
-            hashedPw = hPW.hashPW(input, salt);
-            databaseQuerys.insertUserInDB(con, userName, hashedPw, userSalt);
+            newUser.setSalt(Base64.getEncoder().encodeToString(salt));
+            newUser.setHashedPw(hPW.hashPW(input, salt));
+            databaseQuerys.insertUserInDB(con, newUser.getUserName(), newUser.getHashedPw(), newUser.getSalt());
+            con.close();
             registrationConfirmation();
             return true;
         }
+        con.close();
         return false;
     }
 

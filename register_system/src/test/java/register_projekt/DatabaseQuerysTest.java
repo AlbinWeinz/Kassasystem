@@ -42,7 +42,7 @@ public class DatabaseQuerysTest {
 
     @Test
     public void matchingUserInDB() throws ClassNotFoundException, SQLException {
-        assertEquals("Test User", databaseQuerys.getAMatchingUser(inMemoryCon, "Test User").getUser());
+        assertEquals("Test User", databaseQuerys.getAMatchingUser(inMemoryCon, "Test User").getUserName());
     }
 
     @Test
@@ -52,23 +52,25 @@ public class DatabaseQuerysTest {
 
     @Test
     public void insertUserInDB() throws ClassNotFoundException, SQLException {
-        databaseQuerys.insertUserInDB(inMemoryCon, sampleUser.getUser(), sampleUser.getHashedPw(), sampleUser.getSalt());
+        databaseQuerys.insertUserInDB(inMemoryCon, sampleUser.getUserName(), sampleUser.getHashedPw(), sampleUser.getSalt());
         ResultSet rs = statement.executeQuery("SELECT * FROM users");
         int count = 0;
         while (rs.next()) {{
             count++;
         }}
+        rs.close();
         assertEquals(2, count);
     }
 
     @Test(expected = SQLException.class)
     public void insertUserInDBWithSameUserName() throws ClassNotFoundException, SQLException {
-        databaseQuerys.insertUserInDB(inMemoryCon, sampleUser2.getUser(), sampleUser2.getHashedPw(), sampleUser2.getSalt());
+        databaseQuerys.insertUserInDB(inMemoryCon, sampleUser2.getUserName(), sampleUser2.getHashedPw(), sampleUser2.getSalt());
         ResultSet rs = statement.executeQuery("SELECT * FROM users");
         int count = 0;
         while (rs.next()) {{
             count++;
         }}
+        rs.close();
         assertEquals(1, count);
     }
 }

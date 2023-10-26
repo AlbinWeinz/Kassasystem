@@ -8,7 +8,6 @@ import java.sql.SQLException;
 import java.util.Base64;
 import java.util.Scanner;
 
-
 public class Login {
 
     private Scanner scanner = new Scanner(System.in);
@@ -21,10 +20,12 @@ public class Login {
         userNamePrompt();
         String input = readStringInput();
         con = databaseQuerys.createDBConnection();
-        if (databaseQuerys.getAMatchingUser(con, input) == null) {
-            throw new RuntimeException("No such user exists");
-        }
         storedUser = databaseQuerys.getAMatchingUser(con, input);
+        con.close();
+        if (storedUser == null) {
+            scanner.close();
+            throw new NullPointerException("No such user exists");
+        }
         return storedUser;
     }
 
@@ -39,10 +40,11 @@ public class Login {
     public boolean passwordField(User storedUser) throws IOException, InvalidKeySpecException, NoSuchAlgorithmException {
         pwPrompt();
         String inputPW = readStringInput();
+        scanner.close();
         byte[] salt = Base64.getDecoder().decode(storedUser.getSalt());
         String hashedInputPW = hPW.hashPW(inputPW, salt);
         if (!hashedInputPW.equals(storedUser.getHashedPw())) {
-            throw new IOException("Wrong password for user " + storedUser.getUser());
+            throw new IOException("Wrong password for user " + storedUser.getUserName());
         }
         System.out.println("Login succesful");
         return true;

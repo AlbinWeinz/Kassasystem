@@ -2,8 +2,6 @@ package register_projekt;
 
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertTrue;
-import static org.mockito.Mockito.times;
-import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
 
 import java.io.IOException;
@@ -38,13 +36,12 @@ public class LoginTest {
     private String sampleUserPW = "Testpassword1!";
 
     //userNameField = method under test
-    @Test(expected = RuntimeException.class)
+    @Test(expected = NullPointerException.class)
     public void noMatchingUserInDB() throws ClassNotFoundException, SQLException {
         when(scanner.nextLine()).thenReturn("Test User");
         when(databaseQuerys.createDBConnection()).thenReturn(con);
         when(databaseQuerys.getAMatchingUser(con, "Test User")).thenReturn(null);
         loginWithMocks.userNameField();
-        verify(databaseQuerys).getAMatchingUser(con, "Test User");
     }
     
     @Test
@@ -53,7 +50,6 @@ public class LoginTest {
         when(databaseQuerys.createDBConnection()).thenReturn(con);
         when(databaseQuerys.getAMatchingUser(con, "Test User")).thenReturn(sampleUser);
         assertEquals(sampleUser, loginWithMocks.userNameField());
-        verify(databaseQuerys, times(2)).getAMatchingUser(con, "Test User");
     }
 
     //passwordField = method under test
