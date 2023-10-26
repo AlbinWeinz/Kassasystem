@@ -6,7 +6,7 @@ import java.util.Collections;
 import java.util.Comparator;
 import java.util.List;
 public class Category {
-    Map<String, Double> categoryMap= new HashMap<>();
+    Map<String, Double> categoryMap;
 
     public Category(){
         categoryMap=new HashMap<>();
@@ -58,11 +58,7 @@ public class Category {
         if (product.getProductPrice() < 0) {
             return false;
         }
-        if (categoryMap.containsKey(product.getProductName())) {
-            return false;
-        }
-
-        return true;
+        return !categoryMap.containsKey(product.getProductName());
     }
     public void clearCategory() {
         categoryMap.clear();
@@ -88,7 +84,7 @@ public class Category {
         }
         List<Product> sortedProducts = new ArrayList<>();
         List<Map.Entry<String, Double>> productEntries = new ArrayList<>(categoryMap.entrySet());
-        Collections.sort(productEntries, Comparator.comparing(Map.Entry::getValue));
+        productEntries.sort(Comparator.comparing(Map.Entry::getValue));
 
         for (Map.Entry<String, Double> entry : productEntries) {
             String productName = entry.getKey();
