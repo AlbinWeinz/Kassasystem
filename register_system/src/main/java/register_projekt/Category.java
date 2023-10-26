@@ -19,11 +19,21 @@ public class Category {
         return categoryMap.get(productName);
     }
     public boolean addToCategory(Product product) {
+        if(product==null) {
+            throw new IllegalArgumentException("Product must exist");
+        }
         String productName = product.getProductName();
+        if(productName==null){
+            throw new IllegalArgumentException("Product must have name");
+        }
+        Double productPrice= product.getProductPrice();
+        if(productPrice==null){
+            throw new IllegalArgumentException("Product must have a price");
+        }
         if (categoryMap.containsKey(productName)) {
             return false;
         } else {
-            categoryMap.put(productName, product.getProductPrice());
+            categoryMap.put(productName, productPrice);
             return true;
         }
     }
@@ -34,9 +44,8 @@ public class Category {
     public void updateProductPrice(String productName, Double newPrice) {
         if (categoryMap.containsKey(productName)) {
             categoryMap.put(productName, newPrice);
-            System.out.println("Price of " + productName + " updated to " + newPrice);
         } else {
-            System.out.println("Product not found: " + productName);
+            throw new IllegalArgumentException("Product not found");
         }
     }
     public void removeProductFromCategory(Product product) {
@@ -47,12 +56,9 @@ public class Category {
     }
     public boolean checkProductPriceAgainstExistingProduct(Product product) {
         if (product.getProductPrice() < 0) {
-            System.out.println("Invalid product price: Price cannot be negative.");
             return false;
         }
-
         if (categoryMap.containsKey(product.getProductName())) {
-            System.out.println("Product with the same name already exists in the category.");
             return false;
         }
 
@@ -95,10 +101,7 @@ public class Category {
 
         return sortedProducts;
     }
-    public void categoryError(Exception e) {
-        System.err.println("An error occurred: " + e.getMessage());
-        e.printStackTrace();
-    }
+
 
 
 }

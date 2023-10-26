@@ -3,28 +3,16 @@ import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.BeforeEach;
 import static org.junit.jupiter.api.Assertions.*;
 import java.util.List;
-import java.io.ByteArrayOutputStream;
-import java.io.PrintStream;
-import org.junit.jupiter.api.AfterEach;
-
+import java.util.HashMap;
 
 public class CategoryTest {
     private Category category;
-    private ByteArrayOutputStream outputStream;
 
     @BeforeEach
     public void setUp() {
         category = new Category();
-        outputStream = new ByteArrayOutputStream();
-        System.setErr(new PrintStream(outputStream));
-    }
-
-    @AfterEach
-    public void tearDown() {
-        System.setErr(System.err);
 
     }
-
 
     @Test
     public void testAddToCategory() {
@@ -33,6 +21,23 @@ public class CategoryTest {
         assertEquals(1, category.getProductCount());
     }
 
+    @Test
+    public void testAddProductToCategoryWithNullReference(){
+        Product product=null;
+        assertThrows(IllegalArgumentException.class,()->category.addToCategory(product));
+    }
+
+    @Test
+    public void testAddProductToCategoryWithoutPrice(){
+        Product product = new Product("product1", null);
+        assertThrows(IllegalArgumentException.class,()->category.addToCategory(product));
+    }
+
+    @Test
+    public void testAddProductToCategoryWithoutName(){
+        Product product= new Product(null,10.0);
+        assertThrows(IllegalArgumentException.class,()->category.addToCategory(product));
+    }
     @Test
     public void testAddMoreThanOne() {
         Product product1 = new Product("Lollipop", 8.90);
@@ -52,7 +57,6 @@ public class CategoryTest {
         assertTrue(category.addToCategory(product1));
         assertFalse(category.addToCategory(product2));
     }
-
     @Test
     public void testAddExistingProductWithDifferentPrice() {
         Category category = new Category();
@@ -63,12 +67,11 @@ public class CategoryTest {
         assertFalse(category.checkProductPriceAgainstExistingProduct(productWithExistingName));
     }
     @Test
-    public void testValidProductPriceWithPositivePrice() {
+    public void testProductPriceWithPositivePrice() {
         Category category = new Category();
         Product product = new Product("Product2", 10.0);
         assertTrue(category.checkProductPriceAgainstExistingProduct(product));
     }
-    // borde kasta exception inte printa ut ngt
     @Test
     public void testCheckProductPriceAgainstExistingProductWithNegativePrice() {
         Category category = new Category();
@@ -96,9 +99,7 @@ public class CategoryTest {
         Category category = new Category();
         Product product = new Product("Product1", 10.0);
         assertTrue(category.getProductCount() == 0);
-        assertThrows(IllegalStateException.class, () -> {
-            category.removeProductFromCategory(product);
-        });
+        assertThrows(IllegalStateException.class, () -> category.removeProductFromCategory(product));
     }
 
     @Test
@@ -135,12 +136,10 @@ public class CategoryTest {
         assertEquals(newPrice, category.getProductPrice("Milk"));
     }
     @Test
-    public void testUpdateProductPrice_ProductNotFound() {
-        String productName = "Product not found";
+    public void testUpdateProductPrice_ProductIsNotInCategory() {
+        String productName = "NonExistingProduct";
         Double newPrice = 10.0;
-        Category category1= new Category();
-        Category updatePrice= category1;
-        assertNotEquals(productName, newPrice);
+        assertThrows(IllegalArgumentException.class,()-> category.updateProductPrice(productName,newPrice));
     }
     @Test
     public void testSortProductsByName() {
@@ -156,6 +155,8 @@ public class CategoryTest {
         assertEquals("Banana", sortedProducts.get(1).getProductName());
         assertEquals("Orange", sortedProducts.get(2).getProductName());
     }
+
+
     @Test
     public void testSortProductsByPrice() {
         Product product1 = new Product("Banana", 1.0);
@@ -168,12 +169,19 @@ public class CategoryTest {
         assertEquals("Banana", sortedProducts.get(1).getProductName());
     }
     @Test
-    public void testCategoryError() {
-        Exception testException = new Exception("Test Exception Message");
-        category.categoryError(testException);
-        String systemOutput = outputStream.toString();
-        assertTrue(systemOutput.contains("An error occurred: Test Exception Message"));
-        assertTrue(systemOutput.contains("java.lang.Exception"));
+    public void testSortProductByName_CategoryIsEmpty(){
+        category.categoryMap = new HashMap<>();
+        assertThrows(IllegalStateException.class, () -> {
+            category.sortProductsByName();
+        });
     }
+    @Test
+    public void testSortProductByPrice_CategoryIsEmpty(){
+        category.categoryMap = new HashMap<>();
+        assertThrows(IllegalStateException.class, () -> {
+           category.sortProductsByPrice();
+        });
+    }
+
 }
 
