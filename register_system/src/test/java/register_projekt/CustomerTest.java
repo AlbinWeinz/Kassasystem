@@ -64,6 +64,14 @@ public class CustomerTest {
     }
 
     @Test
+    void membershipStatusTest6(){
+        Customer customer=new Customer(testName, testPersonalNumber, testAge,testPoints,testMembership, testEmail);
+        customer.calculatePoints(-2, -4,-7);
+        String membership5=customer.membershipStatus();
+        assertEquals("Not a member", membership5);
+    }
+
+    @Test
     void calculateDiscountTest1(){ //vet inte om de här testen är för lätta
         Customer customer=new Customer(testName, testPersonalNumber, testAge,testPoints,testMembership, testEmail);
         assertEquals("10% rabatt", customer.calculateDiscount("Bronze"));

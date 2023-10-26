@@ -39,7 +39,7 @@ public class PurchasesHistory extends Customer {
 
     @Override ///fixa!
     public String toString(){
-        return "\nPersonnummer: " + personalNumber +
+        return "Personnummer: " + personalNumber +
                 "\nHur mycket kunden spenderat: " + amountSpent +
                 "\nHur många köp kunden har gjort: " + amountOfPurchases +
                 "\nAntalet köp per år: " + yearsAsMember +

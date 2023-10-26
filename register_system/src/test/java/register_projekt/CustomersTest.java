@@ -10,18 +10,20 @@ import static org.junit.jupiter.api.Assertions.*;
 
 
 public class CustomersTest {
+    static Customers customersList;
     @BeforeAll
     static void setUpCustomers(){
-        Customers.addCustomer("Kalle Karlsson", "200008143528", 23, 15.6, "Bronze","kalle@exempel.com");
-        Customers.addCustomer("Göran Smith", "200308143528", 20, 0.6, "New member","goran@exempel.com");
+        customersList = new Customers();
+        customersList.addCustomer("Kalle Karlsson", "200008143528", 23, 15.6, "Bronze","kalle@exempel.com");
+        customersList.addCustomer("Göran Smith", "200308143528", 20, 0.6, "New member","goran@exempel.com");
     }
 
 
 
     @Test
     void removeCustomerTest(){
-        Customer expected = Customers.addCustomer("Stina Stensson", "200008143528", 23, 15.6, "Bronze","kalle@exempel.com");
-        Customers.removeCustomer(expected);
+        Customer expected = customersList.addCustomer("Stina Stensson", "200108143528", 23, 15.6, "Bronze","kalle@exempel.com");
+        customersList.removeCustomer(expected);
         assertNull(Customers.nameSearch("Stina Stensson"));
     }
 
@@ -75,5 +77,7 @@ public class CustomersTest {
         expected.add("Ditt medlemskap: \nNamn: Göran Smith\nPersonnummer: 200308143528\nÅlder: 20\nMejladress: goran@exempel.com\nMedlemskap: New member\nPoäng: 0.6\nRabatt: 5% rabatt");
         assertEquals(expected, result);
     }
+
+
 
 }

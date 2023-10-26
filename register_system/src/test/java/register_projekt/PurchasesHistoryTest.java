@@ -21,7 +21,7 @@ public class PurchasesHistoryTest {
     }
 
     @Test
-    void averageAmountPerPurchaseTest(){
+    void averageAmountPerPurchaseTest1(){
         String personalNumber="199412011938";
         int amountSpent=100;
         int amountOfPurchases=2;
@@ -33,14 +33,30 @@ public class PurchasesHistoryTest {
     }
 
     @Test
+    void averageAmountPerPurchaseTest(){
+        String personalNumber="";
+        int amountSpent=0;
+        int amountOfPurchases=0;
+        int yearAsMember=0;
+        PurchasesHistory purchasesHistory=new PurchasesHistory(personalNumber);
+        purchasesHistory.updatePurchasesHistory(personalNumber,yearAsMember, amountSpent,amountOfPurchases );
+        double averageAmountPerPurchase=purchasesHistory.averageAmountPerPurchase(personalNumber);
+        assertEquals(0.0, averageAmountPerPurchase);
+    }
+
+    @Test
     void toStringTest(){
         String personalNumber="199908112536";
         int amountSpent=1000;
         int yearsAsMember=2;
-        int amountOfPurchases=1;
+        int amountOfPurchases=2;
         PurchasesHistory purchasesHistory=new PurchasesHistory(personalNumber, amountSpent,amountOfPurchases, yearsAsMember);
         String toString=purchasesHistory.toString();
-        assertEquals("PurchasesHistory{customerDataList=[Customer{personalNumber='1234567890', name='null', age=0, points=0.0, membership='Not a member', amountOfPurchases=0, amountSpent=100, yearsAsMember=2, email='null'}]}", toString);
+        assertEquals("Personnummer: 199908112536" +
+                "\nHur mycket kunden spenderat: 1000" +
+                "\nHur många köp kunden har gjort: 2" +
+                "\nAntalet köp per år: 2"  +
+                "\nMedelvärdet av hur mycket kunden spenderat per köp: 500.0", toString);
 
     }
 }
