@@ -18,19 +18,19 @@ public class Customer {
         this.membership=membership;
         this.points=points;
         this.email=email;
+        this.amountSpent=0;
+        this.amountOfPurchases=0;
+        this.yearsAsMember=0;
     }
 
-    public Customer(){
+    public Customer(String personalNumber, int amountSpent, int yearsAsMember, int amountOfPurchases){
+        this.personalNumber=personalNumber;
         this.amountSpent=amountSpent;
         this.amountOfPurchases=amountOfPurchases;
         this.yearsAsMember=yearsAsMember;
     }
 
-    public Customer(int amountSpent,int amountOfPurchases, int yearsAsMember){
-        this.amountSpent=amountSpent;
-        this.amountOfPurchases=amountOfPurchases;
-        this.yearsAsMember=yearsAsMember;
-    }
+
 
     public String getPersonalNumber(){
         return personalNumber;
@@ -45,11 +45,15 @@ public class Customer {
 
     public double calculatePoints(int amountSpent, int amountOfPurchases, int yearsAsMember){
         points=(amountOfPurchases * 0.1) * (amountSpent * 0.05) * ( yearsAsMember * 0.2);
+        this.amountSpent=amountSpent;
+        this.amountOfPurchases=amountOfPurchases;
+        this.yearsAsMember=yearsAsMember;
+
         return points;
     }
 
-    public String membershipStatus(double points){
-        //double points = calculatePoints(amountSpent, amountOfPurchases, yearsAsMember);
+    public String membershipStatus(){
+
         if (points>30){
             membership="Gold";
             return membership;
@@ -60,7 +64,7 @@ public class Customer {
             membership="Bronze";
             return membership;
         }else if (points>0){
-            membership="New membership";
+            membership="New member";
             return membership;
         }else{
             return "Not a member";
@@ -79,6 +83,19 @@ public class Customer {
         };
         return discount + "% rabatt"; // kanske onödigt att skriva ut %
     }
+
+    @Override
+    public boolean equals(Object obj) {
+        if(obj==this){
+            return true;
+        }if (!(obj instanceof Customer)) {
+            return false;
+        }
+        return personalNumber.equals(((Customer) obj).getPersonalNumber());
+
+        }
+
+
     @Override
     public String toString(){
         return "Ditt medlemskap: " +
@@ -92,10 +109,22 @@ public class Customer {
 
     }
     public void setEmail(String newEmail) {
-        this.email=newEmail;
+        email=newEmail;
     }
 
     public void setName(String newName) {
-        this.name=name;
+        name=newName;
+    }
+
+    public int getAmountOfPurchases() {
+        return amountOfPurchases;
+    }
+
+    public int getAmountSpent() {
+        return amountSpent;
+    }
+
+    public int getYearsAsMember() {
+        return yearsAsMember;
     }
 }

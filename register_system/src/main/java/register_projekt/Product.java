@@ -1,14 +1,14 @@
+package register_projekt;
 import java.util.Objects;
 
 public class Product {
 
-    public String productName;
-    public Double productPrice;
+    public final String productName;
+    public final Double productPrice;
 
     public Product(String productName, Double productPrice) {
         this.productName = productName;
         this.productPrice = productPrice;
-
 
     }
 
@@ -16,15 +16,18 @@ public class Product {
         return this.productName;
 
     }
-
     public Double getProductPrice() {
         return this.productPrice;
     }
 
+    public Money getTotalAmount(int quantity) {
+        double total = productPrice * quantity;
+        return new Money(total);
+    }
 
     @Override
     public String toString() {
-        return "" + productName + "Price: " + productPrice;
+        return productName + "Price: " + productPrice;
     }
 
     @Override
