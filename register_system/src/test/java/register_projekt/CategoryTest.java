@@ -3,29 +3,16 @@ import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.BeforeEach;
 import static org.junit.jupiter.api.Assertions.*;
 import java.util.List;
-import java.io.ByteArrayOutputStream;
-import java.io.PrintStream;
-import org.junit.jupiter.api.AfterEach;
-
+import java.util.HashMap;
 
 public class CategoryTest {
     private Category category;
-    private ByteArrayOutputStream outputStream;
 
     @BeforeEach
     public void setUp() {
         category = new Category();
-        outputStream = new ByteArrayOutputStream();
-        System.setErr(new PrintStream(outputStream));
-    }
-
-    @AfterEach
-    public void tearDown() {
-        System.setErr(System.err);
 
     }
-
-
     @Test
     public void testAddToCategory() {
         Product product = new Product("Milk", 12.0);
@@ -33,6 +20,23 @@ public class CategoryTest {
         assertEquals(1, category.getProductCount());
     }
 
+    @Test
+    public void testAddProductToCategoryWithNullReference(){
+        Product product=null;
+        assertThrows(IllegalArgumentException.class,()->category.addToCategory(product));
+    }
+
+    @Test
+    public void testAddProductToCategoryWithoutPrice(){
+        Product product = new Product("product1", null);
+        assertThrows(IllegalArgumentException.class,()->category.addToCategory(product));
+    }
+
+    @Test
+    public void testAddProductToCategoryWithoutName(){
+        Product product= new Product(null,10.0);
+        assertThrows(IllegalArgumentException.class,()->category.addToCategory(product));
+    }
     @Test
     public void testAddMoreThanOne() {
         Product product1 = new Product("Lollipop", 8.90);
@@ -52,27 +56,26 @@ public class CategoryTest {
         assertTrue(category.addToCategory(product1));
         assertFalse(category.addToCategory(product2));
     }
-
     @Test
-    public void testValidProductPriceWithExistingName() {
+    public void testAddExistingProductWithDifferentPrice() {
         Category category = new Category();
         Product existingProduct = new Product("ExistingProduct", 15.0);
         category.addToCategory(existingProduct);
         assertFalse(category.getProductCount() == 0);
         Product productWithExistingName = new Product("ExistingProduct", 20.0);
-        assertFalse(category.validProductPrice(productWithExistingName));
+        assertFalse(category.checkProductPriceAgainstExistingProduct(productWithExistingName));
     }
     @Test
-    public void testValidProductPriceWithPositivePrice() {
+    public void testProductPriceWithPositivePrice() {
         Category category = new Category();
         Product product = new Product("Product2", 10.0);
-        assertTrue(category.validProductPrice(product));
+        assertTrue(category.checkProductPriceAgainstExistingProduct(product));
     }
     @Test
-    public void testValidProductPriceWithNegativePrice() {
+    public void testCheckProductPriceAgainstExistingProductWithNegativePrice() {
         Category category = new Category();
         Product product = new Product("Product1", -5.0);
-        assertFalse(category.validProductPrice(product));
+        assertFalse(category.checkProductPriceAgainstExistingProduct(product));
     }
 
     @Test
@@ -95,9 +98,7 @@ public class CategoryTest {
         Category category = new Category();
         Product product = new Product("Product1", 10.0);
         assertTrue(category.getProductCount() == 0);
-        assertThrows(IllegalStateException.class, () -> {
-            category.removeProductFromCategory(product);
-        });
+        assertThrows(IllegalStateException.class, () -> category.removeProductFromCategory(product));
     }
 
     @Test
@@ -109,6 +110,12 @@ public class CategoryTest {
         Product product = new Product("Blueberry", 18.00);
         category.addToCategory(product);
         assertTrue(category.containsProduct("Blueberry"));
+    }
+    @Test
+    public void testCategoryDoesNotContainProduct(){
+        Product product = new Product("Strawberry", 25.50);
+        category.addToCategory(product);
+        assertFalse(category.containsProduct("LingonBerry"));
     }
     @Test
     public void testClearCategory() {
@@ -128,12 +135,10 @@ public class CategoryTest {
         assertEquals(newPrice, category.getProductPrice("Milk"));
     }
     @Test
-    public void testUpdateProductPrice_ProductNotFound() {
-        String productName = "Product not found";
+    public void testUpdateProductPrice_ProductIsNotInCategory() {
+        String productName = "NonExistingProduct";
         Double newPrice = 10.0;
-        Category category1= new Category();
-        Category updatePrice= category1;
-        assertNotEquals(productName, newPrice);
+        assertThrows(IllegalArgumentException.class,()-> category.updateProductPrice(productName,newPrice));
     }
     @Test
     public void testSortProductsByName() {
@@ -149,6 +154,8 @@ public class CategoryTest {
         assertEquals("Banana", sortedProducts.get(1).getProductName());
         assertEquals("Orange", sortedProducts.get(2).getProductName());
     }
+
+
     @Test
     public void testSortProductsByPrice() {
         Product product1 = new Product("Banana", 1.0);
@@ -161,12 +168,19 @@ public class CategoryTest {
         assertEquals("Banana", sortedProducts.get(1).getProductName());
     }
     @Test
-    public void testCategoryError() {
-        Exception testException = new Exception("Test Exception Message");
-        category.categoryError(testException);
-        String consoleOutput = outputStream.toString();
-        assertTrue(consoleOutput.contains("An error occurred: Test Exception Message"));
-        assertTrue(consoleOutput.contains("java.lang.Exception"));
+    public void testSortProductByName_CategoryIsEmpty(){
+        category.categoryMap = new HashMap<>();
+        assertThrows(IllegalStateException.class, () -> {
+            category.sortProductsByName();
+        });
     }
+    @Test
+    public void testSortProductByPrice_CategoryIsEmpty(){
+        category.categoryMap = new HashMap<>();
+        assertThrows(IllegalStateException.class, () -> {
+           category.sortProductsByPrice();
+        });
+    }
+
 }
 

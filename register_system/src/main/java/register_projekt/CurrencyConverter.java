@@ -8,19 +8,33 @@ import java.util.Map;
 
 public class CurrencyConverter {
     private Map<Currency, Map<Currency, BigDecimal>> exchangeRates;
+    private ExchangeRateService exchangeRateService;
 
     public CurrencyConverter() {
         this.exchangeRates = new HashMap<>();
+    }
+
+    public CurrencyConverter(ExchangeRateService exchangeRateService) {
+        this.exchangeRates = new HashMap<>();
+        this.exchangeRateService = exchangeRateService;
     }
 
     public Map<Currency, Map<Currency, BigDecimal>> getExchangeRates() {
         return exchangeRates;
     }
 
+    public BigDecimal getExchangeRateFromService(Currency fromCurrency, Currency toCurrency) {
+        return exchangeRateService.getExchangeRate(fromCurrency, toCurrency);
+    }
+
     public void setExchangeRate(Currency fromCurrency, Currency toCurrency, BigDecimal rate) {
         exchangeRates.computeIfAbsent(fromCurrency, k -> new HashMap<>()).put(toCurrency, rate);
         exchangeRates.computeIfAbsent(toCurrency, k -> new HashMap<>()).put(fromCurrency,
                 BigDecimal.ONE.divide(rate, 4, RoundingMode.HALF_UP));
+    }
+
+    public void setExchangeRateService(ExchangeRateService exchangeRateService) {
+        this.exchangeRateService = exchangeRateService;
     }
 
     public CurrencyMoney convert(CurrencyMoney money, Currency toCurrency) {

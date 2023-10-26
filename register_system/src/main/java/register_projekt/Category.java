@@ -19,11 +19,21 @@ public class Category {
         return categoryMap.get(productName);
     }
     public boolean addToCategory(Product product) {
+        if(product==null) {
+            throw new IllegalArgumentException("Product must exist");
+        }
         String productName = product.getProductName();
+        if(productName==null){
+            throw new IllegalArgumentException("Product must have name");
+        }
+        Double productPrice= product.getProductPrice();
+        if(productPrice==null){
+            throw new IllegalArgumentException("Product must have a price");
+        }
         if (categoryMap.containsKey(productName)) {
             return false;
         } else {
-            categoryMap.put(productName, product.getProductPrice());
+            categoryMap.put(productName, productPrice);
             return true;
         }
     }
@@ -34,9 +44,8 @@ public class Category {
     public void updateProductPrice(String productName, Double newPrice) {
         if (categoryMap.containsKey(productName)) {
             categoryMap.put(productName, newPrice);
-            System.out.println("Price of " + productName + " updated to " + newPrice);
         } else {
-            System.out.println("Product not found: " + productName);
+            throw new IllegalArgumentException("Product not found");
         }
     }
     public void removeProductFromCategory(Product product) {
@@ -45,20 +54,16 @@ public class Category {
         }
         categoryMap.remove(product.getProductName());
     }
-    public boolean validProductPrice(Product product) {
+    public boolean checkProductPriceAgainstExistingProduct(Product product) {
         if (product.getProductPrice() < 0) {
-            System.out.println("Invalid product price: Price cannot be negative.");
             return false;
         }
-
         if (categoryMap.containsKey(product.getProductName())) {
-            System.out.println("Product with the same name already exists in the category.");
             return false;
         }
 
         return true;
     }
-
     public void clearCategory() {
         categoryMap.clear();
     }
@@ -75,10 +80,8 @@ public class Category {
             Product product=new Product(productName, productPrice);
             sortedProducts.add(product);
         }
-
         return sortedProducts;
     }
-
     public List<Product> sortProductsByPrice() {
         if (categoryMap.isEmpty()) {
             throw new IllegalStateException("Cannot sort an empty category.");
@@ -92,15 +95,8 @@ public class Category {
             Double productPrice = entry.getValue();
             sortedProducts.add(new Product(productName, productPrice));
         }
-
         return sortedProducts;
     }
-    public void categoryError(Exception e) {
-        System.err.println("An error occurred: " + e.getMessage());
-        e.printStackTrace();
-    }
-
-
 }
 
 
