@@ -14,6 +14,10 @@ public class ChangeCalculator {
         availableDenominations = new LinkedHashMap<>();
     }
 
+    public Map<BigDecimal, Integer> getAvailableDenominations(Currency currency) {
+        return availableDenominations.get(currency);
+    }
+
     public void setAvailableDenomination(Currency currency, BigDecimal denomination, int quantity) {
         if (denomination.compareTo(BigDecimal.ZERO) <= 0 || quantity < 0) {
             throw new IllegalArgumentException("Invalid denomination or quantity");
@@ -25,6 +29,27 @@ public class ChangeCalculator {
                 .sorted(Map.Entry.<BigDecimal, Integer>comparingByKey(Comparator.reverseOrder()))
                 .collect(Collectors.toMap(Map.Entry::getKey, Map.Entry::getValue, (e1, e2) -> e1, LinkedHashMap::new));
         availableDenominations.put(currency, denominations);
+    }
+
+    public void resetAvailableDenominations(Currency currency) {
+        Map<BigDecimal, Integer> denominations = availableDenominations.get(currency);
+        if (denominations != null) {
+            denominations.clear();
+        }
+    }
+
+    private void updateAvailableDenominations(Currency currency, Map<BigDecimal, Integer> change) {
+        Map<BigDecimal, Integer> denominations = availableDenominations.get(currency);
+        /*
+         * if (denominations == null) {
+         * throw new IllegalArgumentException("Currency not supported");
+         * }
+         */
+        for (Map.Entry<BigDecimal, Integer> entry : change.entrySet()) {
+            BigDecimal denomination = entry.getKey();
+            int quantity = entry.getValue();
+            denominations.put(denomination, denominations.get(denomination) - quantity);
+        }
     }
 
     public Map<BigDecimal, Integer> calculateChange(Currency currency, double payment, double price) {
@@ -54,19 +79,5 @@ public class ChangeCalculator {
         }
         updateAvailableDenominations(currency, change);
         return change;
-    }
-
-    private void updateAvailableDenominations(Currency currency, Map<BigDecimal, Integer> change) {
-        Map<BigDecimal, Integer> denominations = availableDenominations.get(currency);
-        /*
-         * if (denominations == null) {
-         * throw new IllegalArgumentException("Currency not supported");
-         * }
-         */
-        for (Map.Entry<BigDecimal, Integer> entry : change.entrySet()) {
-            BigDecimal denomination = entry.getKey();
-            int quantity = entry.getValue();
-            denominations.put(denomination, denominations.get(denomination) - quantity);
-        }
     }
 }
