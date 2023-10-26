@@ -117,13 +117,7 @@ public class CashRegister {
                 case 7 -> {
                     System.out.print("Payment");
                     double paymentAmount = scanner.nextDouble();
-                    CheckOut checkOut = new CheckOut(new CheckOut.Payment() {
-                        @Override
-                        public boolean chargeCard(double amount) {
-                            return amount > 0;
-                        }
-
-                    });
+                    CheckOut checkOut = new CheckOut(amount -> amount > 0);
                     try {
                         boolean paymentSuccess = checkOut.processPayment(paymentAmount);
                         if (paymentSuccess) {

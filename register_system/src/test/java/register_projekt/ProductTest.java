@@ -38,7 +38,7 @@ public class ProductTest {
     @Test
     public void testProductEqualsItself(){
         Product product=new Product("Orange",3.5);
-        assertTrue(product.equals(product));
+        assertEquals(product, product);
     }
     @Test
     public void testNonEqualProducts(){

@@ -60,7 +60,7 @@ public class CategoryTest {
         Category category = new Category();
         Product existingProduct = new Product("ExistingProduct", 15.0);
         category.addToCategory(existingProduct);
-        assertFalse(category.getProductCount() == 0);
+        assertNotEquals(0, category.getProductCount());
         Product productWithExistingName = new Product("ExistingProduct", 20.0);
         assertFalse(category.checkProductPriceAgainstExistingProduct(productWithExistingName));
     }
@@ -86,23 +86,23 @@ public class CategoryTest {
         category.addToCategory(product1);
         category.addToCategory(product2);
 
-        assertFalse(category.getProductCount() == 0);
+        assertNotEquals(0, category.getProductCount());
         category.removeProductFromCategory(product1);
 
         assertNull(category.getProductPrice(product1.getProductName()));
-        assertFalse(category.getProductCount() == 0);
+        assertNotEquals(0, category.getProductCount());
     }
     @Test
     public void testRemoveProductFromEmptyCategory() {
         Category category = new Category();
         Product product = new Product("Product1", 10.0);
-        assertTrue(category.getProductCount() == 0);
+        assertEquals(0, category.getProductCount());
         assertThrows(IllegalStateException.class, () -> category.removeProductFromCategory(product));
     }
 
     @Test
     public void testEmptyCategory() {
-        assertTrue(category.getProductCount() == 0);
+        assertEquals(0, category.getProductCount());
     }
     @Test
     public void testCategoryContainsProduct() {
@@ -120,9 +120,9 @@ public class CategoryTest {
     public void testClearCategory() {
         Product product1 = new Product("Milk", 12.0);
         category.addToCategory(product1);
-        assertFalse(category.getProductCount() == 0);
+        assertNotEquals(0, category.getProductCount());
         category.clearCategory();
-        assertTrue(category.getProductCount() == 0);
+        assertEquals(0, category.getProductCount());
     }
 
     @Test
@@ -169,16 +169,12 @@ public class CategoryTest {
     @Test
     public void testSortProductByName_CategoryIsEmpty(){
         category.categoryMap = new HashMap<>();
-        assertThrows(IllegalStateException.class, () -> {
-            category.sortProductsByName();
-        });
+        assertThrows(IllegalStateException.class, () -> category.sortProductsByName());
     }
     @Test
     public void testSortProductByPrice_CategoryIsEmpty(){
         category.categoryMap = new HashMap<>();
-        assertThrows(IllegalStateException.class, () -> {
-           category.sortProductsByPrice();
-        });
+        assertThrows(IllegalStateException.class, () -> category.sortProductsByPrice());
     }
 
 }

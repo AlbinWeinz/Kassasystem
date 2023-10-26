@@ -84,7 +84,7 @@ public class Category {
         }
         List<Product> sortedProducts = new ArrayList<>();
         List<Map.Entry<String, Double>> productEntries = new ArrayList<>(categoryMap.entrySet());
-        productEntries.sort(Comparator.comparing(Map.Entry::getValue));
+        productEntries.sort(Map.Entry.comparingByValue());
 
         for (Map.Entry<String, Double> entry : productEntries) {
             String productName = entry.getKey();

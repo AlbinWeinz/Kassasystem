@@ -33,36 +33,24 @@ public class CheckOutTest {
     }
 
     @Test
-    public void testPaymentFailed() throws PaymentFailedException {
+    public void testPaymentFailed() {
         double amount = 25.0;
         Mockito.when(mockPayment.chargeCard(amount)).thenReturn(false);
 
-        assertThrows(PaymentFailedException.class, () -> {
-            checkOut.processPayment(amount);
-        });
+        assertThrows(PaymentFailedException.class, () -> checkOut.processPayment(amount));
     }
 
     @Test
     public void testChargeCard() {
         double amount = 100.0;
-        assertThrows(PaymentFailedException.class, () -> {
-            checkOut.processPayment(amount);
-
-        });
+        assertThrows(PaymentFailedException.class, () -> checkOut.processPayment(amount));
     }
 
     @Test
     public void testChargeCardWithInsufficientFunds()  {
-        CheckOut.Payment payment = new CheckOut.Payment() {
-            @Override
-            public boolean chargeCard(double amount) {
-                return false;
-            }
-        };
+        CheckOut.Payment payment = amount -> false;
         CheckOut checkOut = new CheckOut(payment);
         double amount = 1000.0;
-        assertThrows(PaymentFailedException.class, () -> {
-            checkOut.processPayment(amount);
-        });
+        assertThrows(PaymentFailedException.class, () -> checkOut.processPayment(amount));
     }
 }
