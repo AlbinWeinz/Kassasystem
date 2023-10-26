@@ -5,88 +5,44 @@ import java.util.List;
 
 public class PurchasesHistory extends Customer {
 
-    protected List<Customer> customerDataList = new ArrayList<>();
+    protected static List<PurchasesHistory> purchaseList = new ArrayList<>();
 
-    public PurchasesHistory(String personalNumber, int amountSpent, int yearsAsMember) {
-        this.personalNumber=personalNumber;
-        this.amountSpent=amountSpent;
-        this.yearsAsMember=yearsAsMember;
+    public PurchasesHistory(String personalNumber, int amountSpent, int yearsAsMember, int amountOfPurchases) {
+       super(personalNumber,amountSpent,yearsAsMember,amountOfPurchases);
     }
 
-    public PurchasesHistory() {
-
+    public PurchasesHistory(){
+        super("", 1,1,1);
     }
 
-    public void addCustomerData(String personalNumber, int amountSpent, int yearsAsMember) {
-       if(super.personalNumber.equals(personalNumber)) {
-           PurchasesHistory purchasesHistory=new PurchasesHistory(personalNumber,amountSpent,yearsAsMember);
-           customerDataList.add(purchasesHistory);
-       }
+    public PurchasesHistory(String personalNumber){
+        super(personalNumber,0,0,0);
 
     }
 
-    public Customer updatePurchasesHistory(String personalNumber,int newYearsAsMember, int newAmountSpent, int newAmountOfPurchases) {
+    public void updatePurchasesHistory(String personalNumber,int newYearsAsMember, int newAmountSpent, int newAmountOfPurchases) {
         if(super.personalNumber.equals(personalNumber)) {
             super.amountOfPurchases += newAmountOfPurchases;
             super.amountSpent += newAmountSpent;
             super.yearsAsMember += newYearsAsMember;
-
-            return this;
         }
-
-        //super.points=calculatePoints(newAmountOfPurchases, newAmountSpent, newYearsAsMember); uppdaterar poängen tror jag
-        return null;
-    }
-
-    public double averageAmountPerCustomer (String personalNumber){
-        for (Customer customer : customerDataList) {
-            if (customer.getPersonalNumber().equals(personalNumber)) {
-                int amountSpent = customer.amountSpent;
-                int yearsAsMember = customer.yearsAsMember;
-                if (yearsAsMember > 0) {
-                    return (double) amountSpent / yearsAsMember;
-                }
-            }
-        }
-        return 0.0;
     }
 
     public double averageAmountPerPurchase(String personalNumber){
-        for (Customer customer : customerDataList) {
-            if (customer.getPersonalNumber().equals(personalNumber)) {
-                int amountSpent = customer.amountSpent;
-                int amountOfPurchases = customer.amountOfPurchases;
+            if (this.personalNumber.equals(personalNumber)) {
                 if (yearsAsMember > 0) {
                     return (double) amountSpent /amountOfPurchases;
                 }
             }
-        }
         return 0.0;
     }
 
-    public void removeCustomerData(String personalNumber){
-       for(Customer customer:customerDataList)
-        if(super.personalNumber.equals(personalNumber)){
-            customerDataList.remove(customer);
-            break;
-        }
-    }
-
-    public List<Customer> getCustomerDataList() {
-        return customerDataList;
-    }
-
-    public void setCustomerDataList(List<Customer> customerDataList) {
-        this.customerDataList=customerDataList;
-    }
-
-    @Override
+    @Override ///fixa!
     public String toString(){
-        return super.toString()+
+        return "Personnummer: " + personalNumber +
                 "\nHur mycket kunden spenderat: " + amountSpent +
                 "\nHur många köp kunden har gjort: " + amountOfPurchases +
                 "\nAntalet köp per år: " + yearsAsMember +
-                "\nMedelvärdet av hur mycket kunden spenderat per år: " + averageAmountPerCustomer (personalNumber)+
                 "\nMedelvärdet av hur mycket kunden spenderat per köp: "+averageAmountPerPurchase(personalNumber);
     }
 }

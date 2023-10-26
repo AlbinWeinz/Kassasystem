@@ -39,7 +39,17 @@ public class ChangeCalculatorTest {
 
     @Test(expected = IllegalArgumentException.class)
     public void testSetAvailableDenominationIncorrectQuantity() {
-        changeCalculator.setAvailableDenomination(usdCurrency, new BigDecimal("0"), -1);
+        changeCalculator.setAvailableDenomination(usdCurrency, new BigDecimal("100"), -1);
+    }
+
+    @Test
+    public void testSetAvailableDenominationWithDuplicateDenominations() {
+        changeCalculator.setAvailableDenomination(Currency.getInstance("SEK"), new BigDecimal("100"), 10);
+        changeCalculator.setAvailableDenomination(Currency.getInstance("SEK"), new BigDecimal("100"), 100);
+        Map<BigDecimal, Integer> denominations = changeCalculator
+                .getAvailableDenominations(Currency.getInstance("SEK"));
+        assertEquals(1, denominations.size());
+        assertEquals(100, denominations.get(new BigDecimal("100")).intValue());
     }
 
     @Test
