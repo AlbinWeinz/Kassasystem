@@ -1,5 +1,6 @@
 package register_projekt;
 
+import java.util.Locale;
 import java.util.Scanner;
 
 public class CashRegister {
@@ -10,7 +11,7 @@ public class CashRegister {
 
         while (isRunning) {
             System.out.println("\nCash Register Menu:");
-            System.out.println("1. add product to category");
+            System.out.println("1. Add product to category");
             System.out.println("2. Check price of a product by name");
             System.out.println("3  Add customer");
             System.out.println("4. Search for customer by name");
@@ -26,8 +27,9 @@ public class CashRegister {
                 case 1 -> {
                     System.out.print("Enter product name: ");
                     String productName = scanner.next();
-                    System.out.print("Enter price of product");
-                    Double productPrice = scanner.nextDouble();
+                    scanner.useLocale(Locale.US);
+                    System.out.print("Enter price of product: ");
+                    double productPrice = scanner.nextDouble();
                     Product product = new Product(productName, productPrice);
                     category.addToCategory(product);
                     System.out.println("Product added");
@@ -58,7 +60,7 @@ public class CashRegister {
 
                     Customers customers = new Customers();
                     customers.addCustomer(name, personalNumber, age, points, membership, email);
-                    System.out.print("Customer added");
+                    System.out.println("Customer added");
                 }
                 case 4 -> {
                     System.out.print("Enter customer name: ");
@@ -118,11 +120,7 @@ public class CashRegister {
                     CheckOut checkOut = new CheckOut(new CheckOut.Payment() {
                         @Override
                         public boolean chargeCard(double amount) {
-                            if (amount > 0) {
-                                return true;
-                            } else {
-                                return false;
-                            }
+                            return amount > 0;
                         }
 
                     });

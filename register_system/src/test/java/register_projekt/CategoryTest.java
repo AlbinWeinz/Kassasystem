@@ -54,25 +54,26 @@ public class CategoryTest {
     }
 
     @Test
-    public void testValidProductPriceWithExistingName() {
+    public void testAddExistingProductWithDifferentPrice() {
         Category category = new Category();
         Product existingProduct = new Product("ExistingProduct", 15.0);
         category.addToCategory(existingProduct);
         assertFalse(category.getProductCount() == 0);
         Product productWithExistingName = new Product("ExistingProduct", 20.0);
-        assertFalse(category.validProductPrice(productWithExistingName));
+        assertFalse(category.checkProductPriceAgainstExistingProduct(productWithExistingName));
     }
     @Test
     public void testValidProductPriceWithPositivePrice() {
         Category category = new Category();
         Product product = new Product("Product2", 10.0);
-        assertTrue(category.validProductPrice(product));
+        assertTrue(category.checkProductPriceAgainstExistingProduct(product));
     }
+    // borde kasta exception inte printa ut ngt
     @Test
-    public void testValidProductPriceWithNegativePrice() {
+    public void testCheckProductPriceAgainstExistingProductWithNegativePrice() {
         Category category = new Category();
         Product product = new Product("Product1", -5.0);
-        assertFalse(category.validProductPrice(product));
+        assertFalse(category.checkProductPriceAgainstExistingProduct(product));
     }
 
     @Test
@@ -109,6 +110,12 @@ public class CategoryTest {
         Product product = new Product("Blueberry", 18.00);
         category.addToCategory(product);
         assertTrue(category.containsProduct("Blueberry"));
+    }
+    @Test
+    public void testCategoryDoesNotContainProduct(){
+        Product product = new Product("Strawberry", 25.50);
+        category.addToCategory(product);
+        assertFalse(category.containsProduct("LingonBerry"));
     }
     @Test
     public void testClearCategory() {
@@ -164,9 +171,9 @@ public class CategoryTest {
     public void testCategoryError() {
         Exception testException = new Exception("Test Exception Message");
         category.categoryError(testException);
-        String consoleOutput = outputStream.toString();
-        assertTrue(consoleOutput.contains("An error occurred: Test Exception Message"));
-        assertTrue(consoleOutput.contains("java.lang.Exception"));
+        String systemOutput = outputStream.toString();
+        assertTrue(systemOutput.contains("An error occurred: Test Exception Message"));
+        assertTrue(systemOutput.contains("java.lang.Exception"));
     }
 }
 

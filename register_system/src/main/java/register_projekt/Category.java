@@ -45,7 +45,7 @@ public class Category {
         }
         categoryMap.remove(product.getProductName());
     }
-    public boolean validProductPrice(Product product) {
+    public boolean checkProductPriceAgainstExistingProduct(Product product) {
         if (product.getProductPrice() < 0) {
             System.out.println("Invalid product price: Price cannot be negative.");
             return false;

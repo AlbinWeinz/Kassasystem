@@ -1,7 +1,7 @@
 package register_projekt;
 
 public class CheckOut {
-    private Payment payment;
+    private final Payment payment;
     public CheckOut(Payment payment){
         this.payment=payment;
     }
