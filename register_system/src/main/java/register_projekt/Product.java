@@ -3,8 +3,8 @@ import java.util.Objects;
 
 public class Product {
 
-    public String productName;
-    public Double productPrice;
+    public final String productName;
+    public final Double productPrice;
 
     public Product(String productName, Double productPrice) {
         this.productName = productName;
@@ -27,7 +27,7 @@ public class Product {
 
     @Override
     public String toString() {
-        return "" + productName + "Price: " + productPrice;
+        return productName + "Price: " + productPrice;
     }
 
     @Override
